@@ -1,0 +1,26 @@
+﻿{
+  "parent": "rustrelics:stage1/diamond_armor",
+  "display": {
+    "icon": { "id": "minecraft:diamond_helmet" },
+    "title": "Impenetrable",
+    "description": "Cuatro piezas de diamante industrial. Pesado, lento, invulnerable. Lo que Stage 1 puede lanzarte ya no es suficiente.",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "full_set": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["minecraft:diamond_helmet"] },
+          { "items": ["minecraft:diamond_chestplate"] },
+          { "items": ["minecraft:diamond_leggings"] },
+          { "items": ["minecraft:diamond_boots"] }
+        ]
+      }
+    }
+  },
+  "requirements": [ ["full_set"] ]
+}

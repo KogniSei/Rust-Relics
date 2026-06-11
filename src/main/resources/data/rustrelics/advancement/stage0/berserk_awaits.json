@@ -1,0 +1,21 @@
+{
+  "parent": "rustrelics:stage0/echoes_below",
+  "display": {
+    "icon": { "id": "minecraft:diamond" },
+    "title": "El Berserk Espera",
+    "description": "§c[!] Tienes el material en tus manos, pero no sabes cómo darle forma. El Gigante debe caer primero.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:diamond"] } ] }
+    }
+  },
+  "requirements": [
+    ["diamond"]
+  ]
+}

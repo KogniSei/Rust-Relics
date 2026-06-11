@@ -22,28 +22,45 @@ public final class RustRelicsCommands {
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
-        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("rrstage")
-                .requires(src -> src.hasPermission(2));
+        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal(
+            "rrstage"
+        ).requires(src -> src.hasPermission(2));
 
-        root.then(Commands.literal("get").executes(ctx -> {
-            ServerLevel level = ctx.getSource().getLevel();
-            int stage = StageManager.getStage(level);
-            ctx.getSource().sendSuccess(
-                    () -> Component.literal("§c[R&R] §fStage global: §e" + stage), false);
-            return stage;
-        }));
+        root.then(
+            Commands.literal("get").executes(ctx -> {
+                ServerLevel level = ctx.getSource().getLevel();
+                int stage = StageManager.getStage(level);
+                ctx.getSource().sendSuccess(
+                    () ->
+                        Component.literal("§c[R&R] §fStage global: §e" + stage),
+                    false
+                );
+                return stage;
+            })
+        );
 
-        root.then(Commands.literal("set")
-                .then(Commands.argument("value", IntegerArgumentType.integer(0, 5))
-                        .executes(ctx -> {
-                            int value = IntegerArgumentType.getInteger(ctx, "value");
-                            ServerLevel level = ctx.getSource().getLevel();
-                            StageManager.setStageDirect(level, value);
-                            ctx.getSource().sendSuccess(
-                                    () -> Component.literal("§c[R&R] §fStage fijado a §e" + value
-                                            + " §7(scoreboard rr_stage sincronizado)"), true);
-                            return value;
-                        })));
+        root.then(
+            Commands.literal("set").then(
+                Commands.argument(
+                    "value",
+                    IntegerArgumentType.integer(0, 5)
+                ).executes(ctx -> {
+                    int value = IntegerArgumentType.getInteger(ctx, "value");
+                    ServerLevel level = ctx.getSource().getLevel();
+                    StageManager.setStageDirect(level, value);
+                    ctx.getSource().sendSuccess(
+                        () ->
+                            Component.literal(
+                                "§c[R&R] §fStage fijado a §e" +
+                                    value +
+                                    " §7(scoreboard rr_stage sincronizado)"
+                            ),
+                        true
+                    );
+                    return value;
+                })
+            )
+        );
 
         event.getDispatcher().register(root);
     }

@@ -1,0 +1,21 @@
+﻿{
+  "parent": "rustrelics:stage0/root",
+  "display": {
+    "icon": { "id": "create:andesite_alloy" },
+    "title": "Andesite Dreams",
+    "description": "El pegamento de la era industrial. El hierro y la andesita se vuelven uno.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "andesite_alloy": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["create:andesite_alloy"] } ] }
+    }
+  },
+  "requirements": [
+    ["andesite_alloy"]
+  ]
+}

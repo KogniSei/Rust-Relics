@@ -1,0 +1,25 @@
+{
+  "parent": "rustrelics:stage1/root",
+  "display": {
+    "icon": { "id": "minecraft:diamond_chestplate" },
+    "title": "Industrial Diamond",
+    "description": "La armadura de diamante requirió ingeniería, no suerte.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "equip_diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "minecraft:diamond_chestplate" }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["equip_diamond"]
+  ]
+}

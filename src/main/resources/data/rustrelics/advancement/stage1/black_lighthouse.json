@@ -1,0 +1,29 @@
+{
+  "parent": "rustrelics:stage1/elder_guardian_hint",
+  "display": {
+    "icon": { "id": "minecraft:dark_prismarine" },
+    "title": "Black Lighthouse",
+    "description": "El monumento oceánico se alza en las profundidades. Tres cámaras, minas de agua, y el Guardian Ancestral. Lleva pociones de respiración acuática.",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "in_monument": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": { "structures": "minecraft:ocean_monument" }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [ ["in_monument"] ]
+}

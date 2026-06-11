@@ -1,0 +1,31 @@
+{
+  "parent": "rustrelics:stage0/sleeping_giant",
+  "display": {
+    "icon": { "id": "minecraft:diamond_block" },
+    "title": "First Great Victory",
+    "description": "§6§l[HITO GLOBAL] §fEl coloso ha caído. El conocimiento de la metalurgia avanzada y el diamante industrial se han despertado en el mundo.",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_berserker": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "galosphere:berserker"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["kill_berserker"]
+  ]
+}

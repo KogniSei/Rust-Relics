@@ -24,8 +24,7 @@ public final class BossBuffs {
     private static final double BERSERKER_HP = 695.0;
     private static final double BERSERKER_ARMOR = 12.0;
 
-    private BossBuffs() {
-    }
+    private BossBuffs() {}
 
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
@@ -35,7 +34,9 @@ public final class BossBuffs {
         if (!(event.getEntity() instanceof LivingEntity living)) {
             return;
         }
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(living.getType());
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(
+            living.getType()
+        );
         if (!BERSERKER_ID.equals(id.toString())) {
             return;
         }
@@ -52,6 +53,10 @@ public final class BossBuffs {
         }
         living.setHealth((float) BERSERKER_HP);
 
-        RustRelics.LOGGER.info("[R&R] Berserker buffeado: {} HP, {} armor.", BERSERKER_HP, BERSERKER_ARMOR);
+        RustRelics.LOGGER.info(
+            "[R&R] Berserker buffeado: {} HP, {} armor.",
+            BERSERKER_HP,
+            BERSERKER_ARMOR
+        );
     }
 }

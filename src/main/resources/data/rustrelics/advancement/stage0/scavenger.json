@@ -1,0 +1,70 @@
+{
+  "parent": "rustrelics:stage0/root",
+  "display": {
+    "icon": { "id": "minecraft:chest" },
+    "title": "Scavenger",
+    "description": "Alguien dejó esto aquí. Ahora es tuyo.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "simple_dungeon": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/simple_dungeon" }
+    },
+    "abandoned_mineshaft": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/abandoned_mineshaft" }
+    },
+    "village_weaponsmith": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/village/village_weaponsmith" }
+    },
+    "village_armorer": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/village/village_armorer" }
+    },
+    "village_toolsmith": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/village/village_toolsmith" }
+    },
+    "shipwreck_treasure": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/shipwreck_treasure" }
+    },
+    "shipwreck_supply": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/shipwreck_supply" }
+    },
+    "underwater_ruin_big": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/underwater_ruin_big" }
+    },
+    "desert_pyramid": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/desert_pyramid" }
+    },
+    "jungle_temple": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/jungle_temple" }
+    },
+    "pillager_outpost": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/pillager_outpost" }
+    },
+    "ruined_portal": {
+      "trigger": "minecraft:player_generates_container_loot",
+      "conditions": { "loot_table": "minecraft:chests/ruined_portal" }
+    }
+  },
+  "requirements": [
+    [
+      "simple_dungeon", "abandoned_mineshaft", "village_weaponsmith",
+      "village_armorer", "village_toolsmith", "shipwreck_treasure",
+      "shipwreck_supply", "underwater_ruin_big", "desert_pyramid",
+      "jungle_temple", "pillager_outpost", "ruined_portal"
+    ]
+  ]
+}

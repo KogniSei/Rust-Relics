@@ -1,0 +1,20 @@
+{
+  "parent": "rustrelics:stage0/deep_speleology",
+  "display": {
+    "icon": { "id": "minecraft:clock" },
+    "title": "Four Days Later",
+    "description": "Los días son largos y las noches hostiles, pero sigues respirando.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "survived": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    ["survived"]
+  ]
+}

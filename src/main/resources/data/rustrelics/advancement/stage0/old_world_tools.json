@@ -1,0 +1,37 @@
+{
+  "parent": "rustrelics:stage0/root",
+  "display": {
+    "icon": { "id": "minecraft:wooden_pickaxe" },
+    "title": "Old World Tools",
+    "description": "Frágil, ineficiente, pero es lo único que tus manos entienden hoy.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "wooden_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:wooden_pickaxe"] } ] }
+    },
+    "wooden_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:wooden_axe"] } ] }
+    },
+    "wooden_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:wooden_shovel"] } ] }
+    },
+    "wooden_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:wooden_hoe"] } ] }
+    },
+    "wooden_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:wooden_sword"] } ] }
+    }
+  },
+  "requirements": [
+    ["wooden_pickaxe", "wooden_axe", "wooden_shovel", "wooden_hoe", "wooden_sword"]
+  ]
+}

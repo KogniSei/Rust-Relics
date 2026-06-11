@@ -1,0 +1,19 @@
+{
+  "rustrelics.command.rrstage.get": "R&R Stage global: %d",
+  "rustrelics.command.rrstage.set": "R&R Stage fijado a %d (scoreboard sincronizado)",
+  "rustrelics.stage.advance.1": "§6§lUn nuevo peligro despierta en las tierras...",
+  "rustrelics.stage.advance.2": "§9§lLas aguas profundas responden al llamado.",
+  "rustrelics.stage.advance.3": "§4§lEl Nether se ha abierto. Nada volvera a ser igual.",
+  "rustrelics.stage.advance.4": "§5§lUn terrible poder ha resucitado. Resistid.",
+  "rustrelics.stage.advance.5": "§b§lEl Ender Dragon ha caido. Ha comenzado el fin.",
+  "rustrelics.stage.broadcast.line": "§7— Stage Global: §e%d §7→ §6%d §7—",
+  "rustrelics.equipment.gate.diamond": "§c[Rust & Relics] §fEl diamante industrial aun no ha despertado. Derrota al Berserk primero.",
+  "rustrelics.equipment.gate.netherite": "§4[!] El calor abrasador de este material te quema. (Requiere Stage 4)",
+  "rustrelics.portal.blocked": "§c[Rust & Relics] §fUna barrera magica apaga la chispa. El Nether esta sellado.",
+  "rustrelics.portal.travel": "§c[!] El portal te escupe. Debes llegar al Stage 2 primero.",
+  "rustrelics.bloodmoon.activate": "§4[Rust & Relics] §fLa luna enrojece. Esta noche sera larga.",
+  "rustrelics.bloodmoon.deactivate": "§6[Rust & Relics] §fEl amanecer llega. Sobreviviste.",
+  "rustrelics.berserker.message": "§6[Rust & Relics] §fThe world has changed.",
+  "rustrelics.scoreboard.rr_stage": "R&R Stage",
+  "rustrelics.scoreboard.rr_bloodmoon": "R&R Blood Moon"
+}

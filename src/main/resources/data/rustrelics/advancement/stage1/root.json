@@ -1,0 +1,25 @@
+{
+  "parent": "rustrelics:stage1/berserk_defeated",
+  "display": {
+    "icon": { "id": "minecraft:diamond" },
+    "title": "A New Threat",
+    "description": "El mundo ha cambiado. El diamante ya no es un sueño lejano.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "minecraft:diamond" }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["get_diamond"]
+  ]
+}

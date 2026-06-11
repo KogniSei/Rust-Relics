@@ -1,0 +1,21 @@
+{
+  "parent": "rustrelics:stage1/clockwork_heart",
+  "display": {
+    "icon": { "id": "minecraft:diamond_pickaxe" },
+    "title": "Precision Cutting",
+    "description": "Con esto puedes llegar más profundo que nunca.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "have_diamond_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": "minecraft:diamond_pickaxe" }]
+      }
+    }
+  },
+  "requirements": [["have_diamond_pickaxe"]]
+}

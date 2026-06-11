@@ -40,7 +40,19 @@ public final class StageTriggers {
             return;
         }
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
-        Integer target = BOSS_STAGE.get(id.toString());
+        String idStr = id.toString();
+
+        // Stage Secreto: Warden — no avanza stage, solo marca flag silencioso
+        if ("minecraft:warden".equals(idStr)) {
+            StageSavedData data = StageSavedData.get(level);
+            if (!data.isWardenSlain()) {
+                data.setWardenSlain(true);
+                RustRelics.LOGGER.info("[R&R] Warden derrotado. Bendicion silenciosa concedida.");
+            }
+            return;
+        }
+
+        Integer target = BOSS_STAGE.get(idStr);
         if (target == null) {
             return;
         }

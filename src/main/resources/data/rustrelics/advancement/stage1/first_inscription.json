@@ -1,0 +1,18 @@
+{
+  "parent": "rustrelics:stage1/impenetrable",
+  "display": {
+    "icon": { "id": "minecraft:enchanted_book" },
+    "title": "First Inscription",
+    "description": "Los encantamientos no son azar aquí. Improved Enchanting convierte la magia en ingeniería táctica. Lee la mesa antes de actuar.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "enchant": {
+      "trigger": "minecraft:enchanted_item"
+    }
+  },
+  "requirements": [ ["enchant"] ]
+}

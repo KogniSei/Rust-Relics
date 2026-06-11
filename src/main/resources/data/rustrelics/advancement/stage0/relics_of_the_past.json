@@ -1,0 +1,29 @@
+{
+  "parent": "rustrelics:stage0/world_has_history",
+  "display": {
+    "icon": { "id": "create:precision_mechanism" },
+    "title": "Relics of the Past",
+    "description": "Chatarra de alta tecnología. No puedes replicarla aún, pero guárdala como oro en paño.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "iron_sheet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["create:iron_sheet"] } ] }
+    },
+    "brass_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["create:brass_ingot"] } ] }
+    },
+    "precision_mechanism": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["create:precision_mechanism"] } ] }
+    }
+  },
+  "requirements": [
+    ["iron_sheet", "brass_ingot", "precision_mechanism"]
+  ]
+}

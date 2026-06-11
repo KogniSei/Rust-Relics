@@ -1,0 +1,44 @@
+﻿{
+  "parent": "rustrelics:stage0/scavenger",
+  "display": {
+    "icon": { "id": "minecraft:map" },
+    "title": "The World Has History",
+    "description": "Estas tierras estuvieron habitadas por ingenieros del pasado.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "in_nomansland": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": [
+                  "nomansland:autumnal_forest",
+                  "nomansland:boreal_forest",
+                  "nomansland:bayou",
+                  "nomansland:bog",
+                  "nomansland:dark_swamp",
+                  "nomansland:dark_taiga",
+                  "nomansland:alchemist_ruins",
+                  "nomansland:dream",
+                  "nomansland:frozen_woods",
+                  "nomansland:blackwater_river"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["in_nomansland"]
+  ]
+}

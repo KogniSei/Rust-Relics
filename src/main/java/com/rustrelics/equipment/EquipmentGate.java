@@ -27,7 +27,8 @@ import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
  * Reglas (identicas al comportamiento KubeJS original):
  *   Stage < 1: bloquea armadura de hierro y diamante + herramientas de diamante.
  *   Stage < 4: bloquea armadura de netherite.
- *   Stage 4+:  sin restricciones.
+ *   Stage < 5: bloquea armadura Sanguine y Necromium (C&C) — solo Endgame.
+ *   Stage 5+:  sin restricciones.
  */
 public final class EquipmentGate {
 
@@ -35,6 +36,8 @@ public final class EquipmentGate {
             "§c[Rust & Relics] §fEl diamante industrial aun no ha despertado. Derrota al Berserk primero.";
     private static final String MSG_NETHERITE =
             "§4[!] El calor abrasador de este material te quema. (Requiere Stage 4)";
+    private static final String MSG_ENDGAME =
+            "§5[!] Este poder oscuro solo obedece a quien vencio al Ender Dragon. (Requiere Endgame)";
 
     private EquipmentGate() {
     }
@@ -52,8 +55,8 @@ public final class EquipmentGate {
 
         ServerLevel level = player.serverLevel();
         int stage = StageManager.getStage(level);
-        if (stage >= 4) {
-            return; // todo desbloqueado
+        if (stage >= 5) {
+            return; // Endgame: todo desbloqueado
         }
 
         EquipmentSlot slot = event.getSlot();
@@ -66,8 +69,10 @@ public final class EquipmentGate {
         if (isArmorSlot) {
             if (stage < 1 && (path.startsWith("diamond_") || path.startsWith("iron_"))) {
                 message = MSG_DIAMOND;
-            } else if (path.startsWith("netherite_")) {
+            } else if (stage < 4 && path.startsWith("netherite_")) {
                 message = MSG_NETHERITE; // bloqueada hasta Stage 4
+            } else if (path.startsWith("sanguine_") || path.startsWith("necromium_")) {
+                message = MSG_ENDGAME; // C&C: bloqueada hasta Stage 5 (Endgame)
             }
         } else if (isHandSlot(slot)) {
             // En mano solo se confiscan herramientas/armas de diamante en Stage < 1.

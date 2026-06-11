@@ -1,0 +1,33 @@
+{
+  "parent": "rustrelics:stage1/blood_moon_survived",
+  "display": {
+    "icon": { "id": "minecraft:prismarine_crystals" },
+    "title": "Something Stirs in the Deep",
+    "description": "§7El siguiente sellado está bajo las aguas. Un guardián ancestral bloquea el camino.",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_deep_ocean": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biome": "minecraft:deep_ocean"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["enter_deep_ocean"]
+  ]
+}

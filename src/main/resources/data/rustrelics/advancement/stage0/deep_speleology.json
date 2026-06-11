@@ -1,0 +1,21 @@
+{
+  "parent": "rustrelics:stage0/better_than_bread",
+  "display": {
+    "icon": { "id": "minecraft:iron_ingot" },
+    "title": "Espeleología Profunda",
+    "description": "El hierro es el límite absoluto de tu fuerza actual. No intentes picar más profundo.",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "iron_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["minecraft:iron_ingot"] } ] }
+    }
+  },
+  "requirements": [
+    ["iron_ingot"]
+  ]
+}

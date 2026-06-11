@@ -1,0 +1,19 @@
+{
+  "parent": "rustrelics:stage1/brass_age",
+  "display": {
+    "icon": { "id": "create:precision_mechanism" },
+    "title": "Clockwork Heart",
+    "description": "El Precision Mechanism: cincuenta engranajes en perfecta armonía. La junta que hace posible forjar el diamante industrial.",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "precision_mechanism": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["create:precision_mechanism"] } ] }
+    }
+  },
+  "requirements": [ ["precision_mechanism"] ]
+}

@@ -1,0 +1,65 @@
+﻿{
+  "parent": "rustrelics:stage0/camp_cooking",
+  "display": {
+    "icon": { "id": "farmersdelight:cooked_rice" },
+    "title": "Better Than Bread",
+    "description": "Un ingeniero bien alimentado rinde el doble.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "cooked_rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:cooked_rice"] } ] }
+    },
+    "vegetable_soup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:vegetable_soup"] } ] }
+    },
+    "beef_stew": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:beef_stew"] } ] }
+    },
+    "chicken_soup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:chicken_soup"] } ] }
+    },
+    "fish_stew": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:fish_stew"] } ] }
+    },
+    "pumpkin_soup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:pumpkin_soup"] } ] }
+    },
+    "baked_cod_stew": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:baked_cod_stew"] } ] }
+    },
+    "noodle_soup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:noodle_soup"] } ] }
+    },
+    "onion_soup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:onion_soup"] } ] }
+    },
+    "bone_broth": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:bone_broth"] } ] }
+    },
+    "mushroom_rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": ["farmersdelight:mushroom_rice"] } ] }
+    }
+  },
+  "requirements": [
+    [
+      "cooked_rice", "vegetable_soup", "beef_stew", "chicken_soup",
+      "fish_stew", "pumpkin_soup", "baked_cod_stew", "noodle_soup",
+      "onion_soup", "bone_broth", "mushroom_rice"
+    ]
+  ]
+}

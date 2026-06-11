@@ -1,0 +1,27 @@
+{
+  "parent": "rustrelics:stage1/root",
+  "display": {
+    "icon": { "id": "minecraft:crossbow" },
+    "title": "They March",
+    "description": "Las caravanas Pillager recorren el mundo con más frecuencia ahora. No son eventos: son la presión constante de una facción que escala contigo.",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_pillager": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": { "type": "minecraft:pillager" }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [ ["kill_pillager"] ]
+}
