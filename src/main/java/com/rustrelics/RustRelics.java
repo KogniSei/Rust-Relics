@@ -10,8 +10,11 @@ import com.rustrelics.eclipse.EclipseMobEffects;
 import com.rustrelics.eclipse.SolarEclipseManager;
 import com.rustrelics.effects.KarmicRetributionHandler;
 import com.rustrelics.effects.ModEffects;
+import com.rustrelics.attachment.ModAttachments;
+import com.rustrelics.equipment.DiamondFocus;
 import com.rustrelics.equipment.EquipmentGate;
 import com.rustrelics.equipment.SetEffects;
+import com.rustrelics.network.SyncDiamondChargesPacket;
 import com.rustrelics.spawn.SpawnControl;
 import com.rustrelics.stage.EternalNightManager;
 import com.rustrelics.stage.HardmodeBuffs;
@@ -23,9 +26,12 @@ import com.rustrelics.stage.Stage4PlayerBuffs;
 import com.rustrelics.stage.StageTriggers;
 import com.rustrelics.stage.WardenBlessing;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.slf4j.Logger;
 
 /**
@@ -74,12 +80,29 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(EclipseMobEffects.class);
         // Stage 5+: Retribucion Karmica
         NeoForge.EVENT_BUS.register(KarmicRetributionHandler.class);
+        // Diamond Focus: cristal charges del set de diamante
+        NeoForge.EVENT_BUS.register(DiamondFocus.class);
         // Registrar efectos personalizados via DeferredRegister
         ModEffects.EFFECTS.register(modEventBus);
+        // Registrar Data Attachments
+        ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
+
+        // Registrar eventos estaticos de la propia clase (payload registration)
+        modEventBus.register(RustRelics.class);
 
         LOGGER.info(
             "[Rust & Relics] Mod nativo inicializado (modid={}).",
             MODID
+        );
+    }
+
+    @SubscribeEvent
+    public static void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registrar = event.registrar("1");
+        registrar.playToClient(
+            SyncDiamondChargesPacket.TYPE,
+            SyncDiamondChargesPacket.STREAM_CODEC,
+            SyncDiamondChargesPacket::handle
         );
     }
 }

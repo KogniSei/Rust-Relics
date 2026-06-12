@@ -53,6 +53,13 @@ public final class EquipmentGate {
             return;
         }
 
+        // Ignorar cambios del MISMO item (durabilidad/cantidad): LivingEquipmentChangeEvent
+        // dispara cada vez que un pico/espada pierde durabilidad al usarse, lo que spammeaba
+        // el mensaje en cada golpe. Solo actuamos en un re-equipamiento real (cambia el TIPO).
+        if (ItemStack.isSameItem(event.getFrom(), stack)) {
+            return;
+        }
+
         ServerLevel level = player.serverLevel();
         int stage = StageManager.getStage(level);
         if (stage >= 5) {
