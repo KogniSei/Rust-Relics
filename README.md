@@ -1,81 +1,38 @@
 # Rust & Relics
 
-Rust & Relics is a NeoForge 1.21.1 progression mod that adds a global stage
-system inspired by Terraria hardmode. It gates equipment, reacts to boss kills,
-syncs progression through scoreboards, and adds world-pressure events such as
-Blood Moon nights.
+Un mod de progresión global para NeoForge 1.21.1 que transforma Minecraft en una experiencia de pacing intencional, sin tutoriales forzados ni checklists de quests.
 
-This repository currently builds a working jar:
+## ¿Qué hace?
 
-```powershell
-.\gradlew.bat build
-```
+El mundo tiene un **stage** invisible que avanza cuando la comunidad del servidor cumple hitos: matar bosses, explorar dimensiones, derrotar desafíos. No es individual — es **global**. Cuando alguien abre el Nether, el mundo cambia para todos.
 
-The compiled mod is generated at:
+Cada stage desbloquea equipamiento, spawns nuevos, eventos atmosféricos y presión creciente. Puedes ignorar la progresión y construir en paz, o perseguirla y sentir cómo el juego se vuelve más hostil y más gratificante.
 
-```text
-build/libs/rustrelics-0.2.0.jar
-```
+## Filosofía
 
-## What It Does
+- **Nada es gratis.** Cada avance tiene un costo visible en el mundo.
+- **Sin hand-holding.** Los logros guían, pero no obligan. El jugador descubre.
+- **De vanilla+ a RPG.** Empieza calmado, evoluciona a números grandes y decisiones tensas.
+- **Hecho para servidores.** La progresión es conversación, no competencia.
 
-- Tracks a global `rr_stage` progression value for the world.
-- Blocks or allows equipment based on progression.
-- Locks Nether access until the configured stage is reached.
-- Adds Blood Moon activation/deactivation state through scoreboard data.
-- Applies stage-based world pressure, spawn control, boss buffs, and set effects.
-- Keeps compatibility-oriented optional hooks for content mods without requiring
-  compile-time dependencies.
+## Características
 
-## Why A Server Owner Would Pay For It
+| Sistema | Descripción |
+|---|---|
+| Stages globales (0–5) | Hitos basados en bosses y dimensiones |
+| Gating de equipo | No puedes saltar tiers. El diamante espera su momento. |
+| Efectos de set | Cada armadura tiene identidad, no solo números más altos |
+| Eventos mundiales | Luna de sangre, noche eterna, eclipses |
+| Buffs escalonados | Mobs y jugadores crecen juntos |
+| Scoreboard bridge | Compatible con datapacks y KubeJS vía `rr_stage` |
 
-Many modpacks become too open too quickly: players rush diamond/netherite,
-skip mid-game content, and burn out. Rust & Relics gives a server or private
-pack a stronger pacing layer by making progression feel earned and communal.
+## Instalación
 
-The $5 starter deliverable is a ready-to-build NeoForge mod plus a compact
-configuration/adaptation pass:
+1. Descarga el `.jar` de [Releases](../../releases)
+2. Colócalo en tu carpeta `mods/` junto a NeoForge 1.21.1
+3. Inicia el mundo. La progresión empieza sola.
 
-- confirm the jar builds;
-- explain where progression logic lives;
-- adjust one gate, message, or stage threshold;
-- provide installation instructions for a NeoForge 1.21.1 server/client.
+## Compilar desde código
 
-## Install
-
-1. Build the jar with `.\gradlew.bat build`.
-2. Copy `build/libs/rustrelics-0.2.0.jar` into the `mods` folder.
-3. Run Minecraft/NeoForge 1.21.1.
-4. Use the mod's stage commands and advancements to drive progression.
-
-## Developer Notes
-
-Important source areas:
-
-- `com.rustrelics.stage`: stage state, triggers, hardmode, Nether portal gates.
-- `com.rustrelics.equipment`: equipment gates and armor set effects.
-- `com.rustrelics.bloodmoon`: Blood Moon state and buffs.
-- `com.rustrelics.spawn`: spawn pressure adjustments.
-- `com.rustrelics.command`: stage command helpers.
-
-Runtime logic is native Java. Data and content shaping from external mods can
-still be handled separately through datapacks or KubeJS, with `rr_stage` acting
-as the bridge.
-
-Current native coverage:
-
-- Stage persistence and scoreboard mirrors for `rr_stage` and `rr_bloodmoon`.
-- Boss and Nether triggers, equipment gating, set effects, spawn control,
-  Blood Moon pressure, boss buffs, and Stage 3+ hardmode pressure.
-- Stage 0 and Stage 1 advancement resources under `src/main/resources/data`.
-
-Still intentionally external or pending:
-
-- Item durability/attribute reshaping for third-party mod items.
-- Late-stage datagen cleanup for recipes, loot tables, and any remaining
-  datapack/KubeJS content.
-- End-to-end in-game validation against the full modpack loadout.
-
-## License
-
-All Rights Reserved.
+```bash
+./gradlew build
