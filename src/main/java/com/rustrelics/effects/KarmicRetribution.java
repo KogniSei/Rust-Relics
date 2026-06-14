@@ -26,11 +26,18 @@ public class KarmicRetribution extends MobEffect {
         );
     }
 
+    private static final float MIN_HEALTH = 2.0f;
+
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity.level().isClientSide) return false;
+        float health = entity.getHealth();
+        if (health <= MIN_HEALTH) return true;
         double dmg = (amplifier >= 1) ? DMG_PER_TICK_ACCELERATED : DMG_PER_TICK;
-        entity.hurt(entity.damageSources().magic(), (float) dmg);
+        float actualDmg = Math.min((float) dmg, health - MIN_HEALTH);
+        if (actualDmg > 0) {
+            entity.hurt(entity.damageSources().magic(), actualDmg);
+        }
         return true;
     }
 

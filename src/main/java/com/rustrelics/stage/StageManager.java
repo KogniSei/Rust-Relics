@@ -24,7 +24,7 @@ public final class StageManager {
         "§6§lUn nuevo peligro despierta en las tierras...", // 0 -> 1
         "§9§lLas aguas profundas responden al llamado.", // 1 -> 2
         "§4§lEl Nether se ha abierto. Nada volvera a ser igual.", // 2 -> 3
-        "§5§lUn terrible poder ha resucitado. Resistid.", // 3 -> 4
+        "§5§lUn terrible poder ha resucitado. La noche eterna cae sobre el mundo y no podras descansar.", // 3 -> 4
         "§b§lEl Ender Dragon ha caido. Ha comenzado el fin.", // 4 -> 5
     };
 

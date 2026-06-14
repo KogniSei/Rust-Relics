@@ -1,0 +1,35 @@
+{
+    "display": {
+        "icon": {
+            "id": "caverns_and_chasms:necromium_chestplate"
+        },
+        "title": "Poder Necr\u00f3tico",
+        "description": "La armadura de Necromium. Oscura, pesada, imparable. El poder del Nether ancestral.",
+        "frame": "goal",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage5/sanguine_power",
+    "criteria": {
+        "necromium_armor": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["caverns_and_chasms:necromium_helmet"]
+                    },
+                    {
+                        "items": ["caverns_and_chasms:necromium_chestplate"]
+                    },
+                    {
+                        "items": ["caverns_and_chasms:necromium_leggings"]
+                    },
+                    {
+                        "items": ["caverns_and_chasms:necromium_boots"]
+                    }
+                ]
+            }
+        }
+    }
+}

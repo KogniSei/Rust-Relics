@@ -1,0 +1,35 @@
+{
+    "display": {
+        "icon": {
+            "id": "caverns_and_chasms:sanguine_chestplate"
+        },
+        "title": "Poder Sangu\u00edneo",
+        "description": "La armadura Sangu\u00ednea. Velocidad y da\u00f1o a cambio de tu carne. El trato est\u00e1 hecho.",
+        "frame": "goal",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage5/kill_dragon",
+    "criteria": {
+        "sanguine_armor": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["caverns_and_chasms:sanguine_helmet"]
+                    },
+                    {
+                        "items": ["caverns_and_chasms:sanguine_chestplate"]
+                    },
+                    {
+                        "items": ["caverns_and_chasms:sanguine_leggings"]
+                    },
+                    {
+                        "items": ["caverns_and_chasms:sanguine_boots"]
+                    }
+                ]
+            }
+        }
+    }
+}

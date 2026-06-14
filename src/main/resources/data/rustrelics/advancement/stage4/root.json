@@ -1,0 +1,20 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:netherite_ingot"
+        },
+        "title": "Ascensi\u00f3n Oscura",
+        "description": "\u00a75\u00a7l[HITO GLOBAL] \u00a7fLa Estrella del Nether ilumina tu camino. El netherite es tuyo y el End te espera.",
+        "frame": "challenge",
+        "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage3/kill_wither",
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/they_march",
   "display": {
     "icon": { "id": "minecraft:ominous_banner" },
-    "title": "Ominous Tide",
-    "description": "El estandarte del capitán. Consúmelo como botella ominosa para atraer la desgracia, o guárdalo como trofeo de guerra. §7La decisión tiene consecuencias.",
+    "title": "Marea Siniestra",
+    "description": "El estandarte del capitán. Úsalo para invocar la desgracia, o guárdalo como trofeo.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

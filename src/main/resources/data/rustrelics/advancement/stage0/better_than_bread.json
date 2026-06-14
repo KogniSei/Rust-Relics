@@ -1,9 +1,9 @@
 ﻿{
-  "parent": "rustrelics:stage0/camp_cooking",
+  "parent": "rustrelics:stage0/mechanical_thinking",
   "display": {
     "icon": { "id": "farmersdelight:cooked_rice" },
-    "title": "Better Than Bread",
-    "description": "Un ingeniero bien alimentado rinde el doble.",
+    "title": "Mejor que Pan",
+    "description": "Un estómago lleno es el mejor combustible para la revolución.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

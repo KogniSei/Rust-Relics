@@ -1,0 +1,38 @@
+{
+  "display": {
+    "title": "El Inframundo",
+    "description": "§6§l[HITO GLOBAL] §fEl Nether se abre ante ti. El calor abrasador del Inframundo te da la bienvenida.",
+    "icon": {
+      "id": "minecraft:netherrack"
+    },
+    "frame": "challenge",
+    "background": "minecraft:textures/gui/advancements/backgrounds/nether.png",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage1/depths_respond",
+  "criteria": {
+    "entered_nether": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": ["minecraft:nether_waste"]
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "entered_nether"
+    ]
+  ]
+}

@@ -2,11 +2,11 @@
   "parent": "rustrelics:stage1/root",
   "display": {
     "icon": { "id": "minecraft:ominous_bottle" },
-    "title": "Red Sky at Night",
-    "description": "La luna enrojeció. Sobreviviste la noche más larga.",
+    "title": "Cielo Rojo al Atardecer",
+    "description": "La luna enrojeció. Sobreviviste a la noche más larga.",
     "frame": "challenge",
     "show_toast": true,
-    "announce_to_chat": true,
+    "announce_to_chat": false,
     "hidden": false
   },
   "criteria": {

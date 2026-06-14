@@ -39,15 +39,15 @@ public final class BloodMoonBuffs {
         return entity.getAttribute(Attributes.ATTACK_DAMAGE) != null;
     }
 
-    // --- Buff al aparecer: +495% HP, +283% dano ---
-    // Valores altos intencionales: el equipo de diamante hace que los mobs
-    // sean triviales, la Blood Moon debe sentirse como una amenaza real.
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }
         if (!(event.getEntity() instanceof LivingEntity living)) {
+            return;
+        }
+        if (living instanceof ServerPlayer) {
             return;
         }
         if (!bloodMoonActive(level) || !isHostile(living)) {
@@ -60,12 +60,12 @@ public final class BloodMoonBuffs {
 
         AttributeInstance health = living.getAttribute(Attributes.MAX_HEALTH);
         if (health != null) {
-            health.setBaseValue(health.getBaseValue() * 5.95);
+            health.setBaseValue(health.getBaseValue() * 1.85);
             living.setHealth(living.getMaxHealth());
         }
         AttributeInstance dmg = living.getAttribute(Attributes.ATTACK_DAMAGE);
         if (dmg != null) {
-            dmg.setBaseValue(dmg.getBaseValue() * 3.83);
+            dmg.setBaseValue(dmg.getBaseValue() * 1.40);
         }
     }
 

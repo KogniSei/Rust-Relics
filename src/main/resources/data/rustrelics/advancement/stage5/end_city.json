@@ -1,0 +1,32 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:purpur_block"
+        },
+        "title": "Ciudad del Fin",
+        "description": "Las torres del End se alzan contra el vac\u00edo. Los shulkers protegen tesoros antiguos.",
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": false,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage5/root",
+    "criteria": {
+        "end_city": {
+            "trigger": "minecraft:location",
+            "conditions": {
+                "player": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "entity": "this",
+                        "predicate": {
+                            "location": {
+                                "structures": ["minecraft:end_city"]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

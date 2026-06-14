@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/root",
   "display": {
     "icon": { "id": "minecraft:crossbow" },
-    "title": "They March",
-    "description": "Las caravanas Pillager recorren el mundo con más frecuencia ahora. No son eventos: son la presión constante de una facción que escala contigo.",
+    "title": "Marchan",
+    "description": "Los saqueadores recorren el mundo con más frecuencia. Ya no son eventos aislados.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

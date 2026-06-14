@@ -1,9 +1,9 @@
 {
-  "parent": "rustrelics:stage0/mechanical_thinking",
+  "parent": "rustrelics:stage0/better_than_bread",
   "display": {
     "icon": { "id": "create:millstone" },
-    "title": "Industrial Revolution",
-    "description": "Moler a mano es para cavernícolas. Deja que la rotación trabaje por ti.",
+    "title": "Revolución Industrial",
+    "description": "Moler a mano es para cavernícolas. Deja que la rotación trabaje.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

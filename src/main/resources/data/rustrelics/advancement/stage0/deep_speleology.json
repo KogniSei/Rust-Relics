@@ -1,9 +1,9 @@
 {
-  "parent": "rustrelics:stage0/better_than_bread",
+  "parent": "rustrelics:stage0/industrial_revolution",
   "display": {
     "icon": { "id": "minecraft:iron_ingot" },
     "title": "Espeleología Profunda",
-    "description": "El hierro es el límite absoluto de tu fuerza actual. No intentes picar más profundo.",
+    "description": "El hierro corre por las venas de la tierra. Es el límite de tu fuerza actual.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

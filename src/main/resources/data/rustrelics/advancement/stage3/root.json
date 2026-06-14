@@ -1,0 +1,25 @@
+{
+  "display": {
+    "title": "Modo Difícil",
+    "description": "§4§l[HITO GLOBAL] §fEl mundo ha cambiado. Los mobs son más fuertes, las invasiones comienzan. Nada volverá a ser igual.",
+    "icon": {
+      "id": "minecraft:netherite_scrap"
+    },
+    "frame": "challenge",
+    "background": "minecraft:textures/gui/advancements/backgrounds/nether.png",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage2/skyward",
+  "criteria": {
+    "milestone_granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "milestone_granted"
+    ]
+  ]
+}

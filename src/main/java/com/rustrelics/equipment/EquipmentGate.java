@@ -74,7 +74,7 @@ public final class EquipmentGate {
         String message = null;
 
         if (isArmorSlot) {
-            if (stage < 1 && (path.startsWith("diamond_") || path.startsWith("iron_"))) {
+            if (stage < 1 && path.startsWith("diamond_")) {
                 message = MSG_DIAMOND;
             } else if (stage < 4 && path.startsWith("netherite_")) {
                 message = MSG_NETHERITE; // bloqueada hasta Stage 4

@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage0/copper_age",
   "display": {
     "icon": { "id": "caverns_and_chasms:copper_pickaxe" },
-    "title": "A Real Pickaxe",
-    "description": "¿Dónde están las herramientas de piedra? Exacto. No existen. Acostúmbrate.",
+    "title": "Un Pico de Verdad",
+    "description": "No busques herramientas de piedra. En este mundo, el cobre es tu punto de partida.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

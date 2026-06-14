@@ -10,11 +10,17 @@ import com.rustrelics.eclipse.EclipseMobEffects;
 import com.rustrelics.eclipse.SolarEclipseManager;
 import com.rustrelics.effects.KarmicRetributionHandler;
 import com.rustrelics.effects.ModEffects;
+import com.rustrelics.effects.VillagerKillTracker;
 import com.rustrelics.attachment.ModAttachments;
+import com.rustrelics.enchantment.leveling.EnchantmentLeveling;
+import com.rustrelics.enchantment.leveling.ModCompat;
+import com.rustrelics.enchantment.leveling.ModDataComponents;
 import com.rustrelics.equipment.DiamondFocus;
 import com.rustrelics.equipment.EquipmentGate;
 import com.rustrelics.equipment.SetEffects;
 import com.rustrelics.network.SyncDiamondChargesPacket;
+import com.rustrelics.silent.HealthTracker;
+import com.rustrelics.silent.PillageThreatTracker;
 import com.rustrelics.spawn.SpawnControl;
 import com.rustrelics.stage.EternalNightManager;
 import com.rustrelics.stage.HardmodeBuffs;
@@ -80,12 +86,23 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(EclipseMobEffects.class);
         // Stage 5+: Retribucion Karmica
         NeoForge.EVENT_BUS.register(KarmicRetributionHandler.class);
+        // Villager kill tracker (para escalar retribucion karmica)
+        NeoForge.EVENT_BUS.register(VillagerKillTracker.class);
+        // Silent stages: salud y amenaza pillager
+        NeoForge.EVENT_BUS.register(HealthTracker.class);
+        NeoForge.EVENT_BUS.register(PillageThreatTracker.class);
         // Diamond Focus: cristal charges del set de diamante
         NeoForge.EVENT_BUS.register(DiamondFocus.class);
+        // Enchantment Leveling: mejora de encantamientos por uso
+        NeoForge.EVENT_BUS.register(EnchantmentLeveling.class);
+        // Mod Compat: deteccion de mods de encantamientos
+        NeoForge.EVENT_BUS.register(ModCompat.class);
         // Registrar efectos personalizados via DeferredRegister
         ModEffects.EFFECTS.register(modEventBus);
         // Registrar Data Attachments
         ModAttachments.ATTACHMENT_TYPES.register(modEventBus);
+        // Registrar Data Components de encantamientos
+        ModDataComponents.COMPONENTS.register(modEventBus);
 
         // Registrar eventos estaticos de la propia clase (payload registration)
         modEventBus.register(RustRelics.class);

@@ -1,20 +1,20 @@
 {
-  "parent": "rustrelics:stage0/deep_speleology",
+  "parent": "rustrelics:stage0/no_more_handcrafting",
   "display": {
     "icon": { "id": "minecraft:clock" },
-    "title": "Four Days Later",
-    "description": "Los días son largos y las noches hostiles, pero sigues respirando.",
-    "frame": "task",
+    "title": "Cuatro Días Después",
+    "description": "El mundo sigue girando. Y tú sigues aquí.",
+    "frame": "challenge",
     "show_toast": true,
-    "announce_to_chat": false,
+    "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {
-    "survived": {
+    "impossible": {
       "trigger": "minecraft:impossible"
     }
   },
   "requirements": [
-    ["survived"]
+    ["impossible"]
   ]
 }

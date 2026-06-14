@@ -1,0 +1,19 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:nether_star"
+        },
+        "title": "Maestro de las Reliquias",
+        "description": "Sangu\u00edneo y Necr\u00f3tico. Luz y sombra. Has dominado ambas caras del poder antiguo.",
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage5/necromium_power",
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

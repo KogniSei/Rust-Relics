@@ -1,0 +1,31 @@
+{
+  "display": {
+    "title": "Presagio de Mortaja",
+    "description": "Las calaveras de los wither esqueletos. Tres de ellas, almas y almas, invocarán a la muerte misma.",
+    "icon": {
+      "id": "minecraft:wither_skeleton_skull"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage3/ancient_debris",
+  "criteria": {
+    "got_wither_skull": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:wither_skeleton_skull"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "got_wither_skull"
+    ]
+  ]
+}

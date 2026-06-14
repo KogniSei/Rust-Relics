@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/root",
   "display": {
     "icon": { "id": "create:brass_ingot" },
-    "title": "The Brass Age",
-    "description": "El latón emerge de cobre y zinc fundidos en el Mixer. La automatización empieza a pagar dividendos reales.",
+    "title": "La Edad del Latón",
+    "description": "Cobre y zinc se funden en el mezclador. La automatización paga dividendos.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

@@ -1,0 +1,22 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:end_stone"
+        },
+        "title": "El Fin del Principio",
+        "description": "Has cruzado el umbral. El Drag\u00f3n del End te espera en su isla de piedra.",
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage4/end_portal",
+    "criteria": {
+        "enter_end": {
+            "trigger": "minecraft:changed_dimension",
+            "conditions": {
+                "to": "minecraft:the_end"
+            }
+        }
+    }
+}

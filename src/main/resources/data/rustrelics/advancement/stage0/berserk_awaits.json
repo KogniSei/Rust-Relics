@@ -3,10 +3,10 @@
   "display": {
     "icon": { "id": "minecraft:diamond" },
     "title": "El Berserk Espera",
-    "description": "§c[!] Tienes el material en tus manos, pero no sabes cómo darle forma. El Gigante debe caer primero.",
-    "frame": "task",
+    "description": "Tienes el material en tus manos, pero el Gigante debe caer primero.",
+    "frame": "challenge",
     "show_toast": true,
-    "announce_to_chat": false,
+    "announce_to_chat": true,
     "hidden": false
   },
   "criteria": {

@@ -5,6 +5,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -66,6 +70,38 @@ public final class StageTriggers {
             }
             RustRelics.LOGGER.info("[R&R] Stage avanzado a {} por muerte de {}.", target, id);
         }
+
+        // Recompensa al matar al Elder Guardian: x2 vida y daño
+        if ("minecraft:elder_guardian".equals(idStr)) {
+            if (event.getSource().getEntity() instanceof ServerPlayer killer) {
+                awardGuardianBlessing(killer);
+            }
+        }
+    }
+
+    private static final ResourceLocation GUARDIAN_HP_MOD = ResourceLocation.parse(
+        "rustrelics:guardian_hp"
+    );
+    private static final ResourceLocation GUARDIAN_DMG_MOD = ResourceLocation.parse(
+        "rustrelics:guardian_dmg"
+    );
+
+    private static void awardGuardianBlessing(ServerPlayer player) {
+        AttributeInstance health = player.getAttribute(Attributes.MAX_HEALTH);
+        if (health != null && health.getModifier(GUARDIAN_HP_MOD) == null) {
+            health.addTransientModifier(
+                new AttributeModifier(GUARDIAN_HP_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            );
+        }
+        AttributeInstance dmg = player.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (dmg != null && dmg.getModifier(GUARDIAN_DMG_MOD) == null) {
+            dmg.addTransientModifier(
+                new AttributeModifier(GUARDIAN_DMG_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            );
+        }
+        player.sendSystemMessage(
+            Component.literal("§b[Rust & Relics] §fBendición del Guardián: §e§lx1.5 §fvida y daño.")
+        );
     }
 
     @SubscribeEvent

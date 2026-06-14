@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": { "id": "minecraft:oak_log" },
-    "title": "A Rusty Beginning",
+    "title": "Un Comienzo Oxidado",
     "description": "El viejo mundo ha caído. Toca reconstruir desde cero.",
     "frame": "task",
     "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",

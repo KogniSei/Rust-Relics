@@ -1,0 +1,31 @@
+{
+  "display": {
+    "title": "Llama Atrapada",
+    "description": "Una vara de blaze. El combustible que enciende la alquimia.",
+    "icon": {
+      "id": "minecraft:blaze_rod"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage2/fortress_found",
+  "criteria": {
+    "got_blaze_rod": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:blaze_rod"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "got_blaze_rod"
+    ]
+  ]
+}

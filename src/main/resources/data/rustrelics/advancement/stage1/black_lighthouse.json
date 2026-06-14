@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/elder_guardian_hint",
   "display": {
     "icon": { "id": "minecraft:dark_prismarine" },
-    "title": "Black Lighthouse",
-    "description": "El monumento oceánico se alza en las profundidades. Tres cámaras, minas de agua, y el Guardian Ancestral. Lleva pociones de respiración acuática.",
+    "title": "Faro Negro",
+    "description": "El monumento oceánico se alza en las profundidades. Lleva pociones de respiración.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

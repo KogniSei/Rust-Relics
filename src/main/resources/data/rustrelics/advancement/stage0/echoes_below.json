@@ -1,16 +1,16 @@
 {
-  "parent": "rustrelics:stage0/root",
+  "parent": "rustrelics:stage0/relics_of_the_past",
   "display": {
     "icon": { "id": "galosphere:allurite_shard" },
-    "title": "Echoes Below",
-    "description": "Los cristales resuenan. Te estás acercando al epicentro.",
+    "title": "Ecos del Abismo",
+    "description": "Los cristales resuenan en las profundidades. Te estás acercando.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false
   },
   "criteria": {
-    "in_galosphere_biome": {
+    "in_galosphere": {
       "trigger": "minecraft:location",
       "conditions": {
         "player": [
@@ -32,6 +32,6 @@
     }
   },
   "requirements": [
-    ["in_galosphere_biome"]
+    ["in_galosphere"]
   ]
 }

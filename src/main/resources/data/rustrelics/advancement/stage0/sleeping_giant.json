@@ -2,15 +2,15 @@
   "parent": "rustrelics:stage0/berserk_awaits",
   "display": {
     "icon": { "id": "galosphere:berserker_spawn_egg" },
-    "title": "The Sleeping Giant",
-    "description": "La reliquia viviente de la era antigua está frente a ti.",
+    "title": "El Gigante Durmiente",
+    "description": "La reliquia viviente yace en las ruinas olvidadas. Prepárate.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false
   },
   "criteria": {
-    "in_forgotten_ruins": {
+    "forgotten_ruins": {
       "trigger": "minecraft:location",
       "conditions": {
         "player": [
@@ -19,7 +19,7 @@
             "entity": "this",
             "predicate": {
               "location": {
-                "structures": "galosphere:forgotten_ruins"
+                "structures": ["galosphere:forgotten_ruins"]
               }
             }
           }
@@ -28,6 +28,6 @@
     }
   },
   "requirements": [
-    ["in_forgotten_ruins"]
+    ["forgotten_ruins"]
   ]
 }

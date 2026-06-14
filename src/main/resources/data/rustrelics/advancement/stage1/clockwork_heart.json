@@ -1,9 +1,9 @@
 {
-  "parent": "rustrelics:stage1/brass_age",
+  "parent": "rustrelics:stage1/below_the_iron_veil",
   "display": {
     "icon": { "id": "create:precision_mechanism" },
-    "title": "Clockwork Heart",
-    "description": "El Precision Mechanism: cincuenta engranajes en perfecta armonía. La junta que hace posible forjar el diamante industrial.",
+    "title": "Corazón de Relojería",
+    "description": "El Mecanismo de Precisión. Cincuenta engranajes en armonía. La pieza que todo lo conecta.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

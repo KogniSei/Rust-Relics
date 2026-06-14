@@ -1,9 +1,9 @@
 ﻿{
-  "parent": "rustrelics:stage0/root",
+  "parent": "rustrelics:stage0/a_real_pickaxe",
   "display": {
     "icon": { "id": "farmersdelight:flint_knife" },
     "title": "Cocina de Campamento",
-    "description": "Aprende a procesar alimentos reales para curar tus heridas eficientemente.",
+    "description": "Un buen ingeniero empieza por alimentarse bien.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

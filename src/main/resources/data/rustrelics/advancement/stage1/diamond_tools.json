@@ -1,12 +1,12 @@
 {
-  "parent": "rustrelics:stage1/clockwork_heart",
+  "parent": "rustrelics:stage1/brass_age",
   "display": {
     "icon": { "id": "minecraft:diamond_pickaxe" },
-    "title": "Precision Cutting",
-    "description": "Con esto puedes llegar más profundo que nunca.",
-    "frame": "task",
+    "title": "Corte de Precisión",
+    "description": "Con un pico de diamante puedes llegar donde ningún otro material te deja.",
+    "frame": "goal",
     "show_toast": true,
-    "announce_to_chat": true,
+    "announce_to_chat": false,
     "hidden": false
   },
   "criteria": {

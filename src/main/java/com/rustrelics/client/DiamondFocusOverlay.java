@@ -34,8 +34,9 @@ public class DiamondFocusOverlay {
         int screenHeight = mc.getWindow().getGuiScaledHeight();
 
         int totalWidth = (DiamondFocus.MAX_CHARGES * SPACING) - (SPACING - ICON_SIZE);
-        int startX = (screenWidth / 2) - (totalWidth / 2);
-        int baseY = screenHeight - 35;
+        int hotbarLeft = (screenWidth / 2) - 91;
+        int startX = hotbarLeft - totalWidth - 4;
+        int baseY = screenHeight - 22 - (ICON_SIZE / 2);
 
         for (int i = 0; i < DiamondFocus.MAX_CHARGES; i++) {
             boolean filled = i < currentCharges;

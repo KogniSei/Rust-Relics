@@ -1,0 +1,19 @@
+{
+    "display": {
+        "icon": {
+            "id": "create:brass_casing"
+        },
+        "title": "F\u00e1brica de Hechizos",
+        "description": "Create: Enchantment Industry. La magia ahora es una l\u00ednea de producci\u00f3n.",
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": false,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage4/elite_pillager",
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

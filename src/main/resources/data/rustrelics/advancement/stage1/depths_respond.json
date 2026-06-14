@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/black_lighthouse",
   "display": {
     "icon": { "id": "minecraft:heart_of_the_sea" },
-    "title": "Depths Respond",
-    "description": "§6§l[HITO GLOBAL] §fEl Guardian Ancestral ha caído. Las profundidades responden. El Nether se desella. El Stage 2 ha comenzado.",
+    "title": "Las Profundidades Responden",
+    "description": "§6§l[HITO GLOBAL] §fEl Guardián Ancestral ha caído. El Nether se desella.",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,

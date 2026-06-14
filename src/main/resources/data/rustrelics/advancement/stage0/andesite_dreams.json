@@ -1,9 +1,9 @@
 ﻿{
-  "parent": "rustrelics:stage0/root",
+  "parent": "rustrelics:stage0/camp_cooking",
   "display": {
     "icon": { "id": "create:andesite_alloy" },
-    "title": "Andesite Dreams",
-    "description": "El pegamento de la era industrial. El hierro y la andesita se vuelven uno.",
+    "title": "Sueños de Andesita",
+    "description": "Hierro y andesita. La chispa de una nueva era.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

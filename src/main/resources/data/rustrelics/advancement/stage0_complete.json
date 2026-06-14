@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage0/sleeping_giant",
   "display": {
     "icon": { "id": "minecraft:diamond_block" },
-    "title": "First Great Victory",
-    "description": "§6§l[HITO GLOBAL] §fEl coloso ha caído. El conocimiento de la metalurgia avanzada y el diamante industrial se han despertado en el mundo.",
+    "title": "Primera Gran Victoria",
+    "description": "§6§l[HITO GLOBAL] §fEl coloso ha caído. El mundo ha cambiado.",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,

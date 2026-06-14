@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage0/andesite_dreams",
   "display": {
     "icon": { "id": "create:cogwheel" },
-    "title": "Mechanical Thinking",
-    "description": "La fuerza cinética empieza a fluir.",
+    "title": "Pensamiento Mecánico",
+    "description": "La fuerza cinética empieza a fluir entre tus manos.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

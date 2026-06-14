@@ -1,0 +1,20 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:dragon_egg"
+        },
+        "title": "El Ciclo Termina",
+        "description": "\u00a7d\u00a7l[HITO GLOBAL] \u00a7fEl final de todo est\u00e1 aqu\u00ed. Las reliquias m\u00e1s poderosas te esperan.",
+        "frame": "challenge",
+        "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage4/enter_end",
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

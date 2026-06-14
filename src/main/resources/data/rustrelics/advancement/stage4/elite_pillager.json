@@ -1,0 +1,30 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:ominous_banner"
+        },
+        "title": "Saqueador de \u00c9lite",
+        "description": "Los saqueadores de \u00e9lite portan armaduras especiales. Son la vanguardia de algo m\u00e1s grande.",
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": false,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage4/full_netherite",
+    "criteria": {
+        "kill_elite": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "entity": "this",
+                        "predicate": {
+                            "type": "minecraft:pillager"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

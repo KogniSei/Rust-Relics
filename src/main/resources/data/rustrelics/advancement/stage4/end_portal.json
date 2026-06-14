@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:ender_eye"
+        },
+        "title": "Portal al Vac\u00edo",
+        "description": "Doce ojos de ender te miran desde el marco. No hay vuelta atr\u00e1s.",
+        "frame": "goal",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage4/auto_enchanter",
+    "criteria": {
+        "has_ender_eye": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["minecraft:ender_eye"]
+                    }
+                ]
+            }
+        }
+    }
+}

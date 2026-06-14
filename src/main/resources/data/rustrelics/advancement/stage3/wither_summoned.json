@@ -1,0 +1,24 @@
+{
+  "display": {
+    "title": "El Despertar del Wither",
+    "description": "Has invocado al Wither. La batalla final del Nether comienza ahora.",
+    "icon": {
+      "id": "minecraft:nether_star"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage3/wither_skull",
+  "criteria": {
+    "milestone_granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "milestone_granted"
+    ]
+  ]
+}

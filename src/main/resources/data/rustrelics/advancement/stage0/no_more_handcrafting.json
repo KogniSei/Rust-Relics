@@ -1,9 +1,9 @@
 ﻿{
-  "parent": "rustrelics:stage0/industrial_revolution",
+  "parent": "rustrelics:stage0/deep_speleology",
   "display": {
     "icon": { "id": "create:mechanical_press" },
-    "title": "No More Handcrafting",
-    "description": "Aplanando el progreso. El nacimiento de las placas de metal.",
+    "title": "No Más Artesanía",
+    "description": "Aplanando el progreso. Nacen las placas de metal.",
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": false,

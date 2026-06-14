@@ -37,9 +37,9 @@ public final class HardmodeBuffs {
     private static final int HARDMODE_STAGE = 3;
 
     private static final double HEALTH_MULT = 2.5;
-    private static final double DAMAGE_MULT = 1.10;
+    private static final double DAMAGE_MULT = 0.10;
     private static final double XP_BONUS = 5.2;
-    private static final float BONUS_LOOT_CHANCE = 0.10f; // ajustable: drop extra global
+    private static final float BONUS_LOOT_CHANCE = 0.25f; // ajustable: drop extra global
     private static final double ARMOR_BONUS = 2.02;
 
     private HardmodeBuffs() {}

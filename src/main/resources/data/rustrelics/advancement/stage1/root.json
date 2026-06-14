@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/berserk_defeated",
   "display": {
     "icon": { "id": "minecraft:diamond" },
-    "title": "A New Threat",
-    "description": "El mundo ha cambiado. El diamante ya no es un sueño lejano.",
+    "title": "Una Nueva Amenaza",
+    "description": "El diamante despierta. Nuevas aleaciones te esperan.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,

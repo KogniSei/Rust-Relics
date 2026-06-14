@@ -1,0 +1,38 @@
+{
+  "display": {
+    "title": "Vuelo Inicial",
+    "description": "Los cielos del Nether son peligrosos. Una aeronave te dará ventaja.",
+    "icon": {
+      "id": "immersive_aircraft:gyrodyne"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage2/blaze_rod",
+  "criteria": {
+    "got_aircraft": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "immersive_aircraft:gyrodyne",
+              "immersive_aircraft:quadrocopter",
+              "immersive_aircraft:biplane",
+              "immersive_aircraft:airplane",
+              "immersive_aircraft:cargo_airplane",
+              "immersive_aircraft:warship"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "got_aircraft"
+    ]
+  ]
+}

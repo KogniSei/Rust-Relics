@@ -2,7 +2,7 @@
   "parent": "rustrelics:stage0/scavenger",
   "display": {
     "icon": { "id": "minecraft:map" },
-    "title": "The World Has History",
+    "title": "El Mundo Tiene Historia",
     "description": "Estas tierras estuvieron habitadas por ingenieros del pasado.",
     "frame": "task",
     "show_toast": true,

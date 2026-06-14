@@ -1,0 +1,24 @@
+{
+  "display": {
+    "title": "Rumbo al Cielo",
+    "description": "El aire es tu nuevo camino. Las alturas ya no son un límite.",
+    "icon": {
+      "id": "immersive_aircraft:gyrodyne"
+    },
+    "frame": "challenge",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage2/first_aircraft",
+  "criteria": {
+    "milestone_granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "milestone_granted"
+    ]
+  ]
+}

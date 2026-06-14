@@ -1,0 +1,35 @@
+{
+  "display": {
+    "title": "Cazador de Hominidos",
+    "description": "Los homínidos emergen de las profundidades. Son rápidos, letales y no conocen el miedo.",
+    "icon": {
+      "id": "minecraft:rotten_flesh"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage3/invasion_intro",
+  "criteria": {
+    "kill_hominid": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "hominid:hominid"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill_hominid"
+    ]
+  ]
+}

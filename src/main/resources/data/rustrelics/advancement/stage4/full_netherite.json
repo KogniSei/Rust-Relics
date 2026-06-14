@@ -1,0 +1,35 @@
+{
+    "display": {
+        "icon": {
+            "id": "minecraft:netherite_chestplate"
+        },
+        "title": "Armadura de Eterno",
+        "description": "Netherite de pies a cabeza. Eres una fortaleza ambulante.",
+        "frame": "goal",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "parent": "rustrelics:stage4/root",
+    "criteria": {
+        "netherite_armor": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["minecraft:netherite_chestplate"]
+                    },
+                    {
+                        "items": ["minecraft:netherite_helmet"]
+                    },
+                    {
+                        "items": ["minecraft:netherite_leggings"]
+                    },
+                    {
+                        "items": ["minecraft:netherite_boots"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,9 +1,9 @@
 {
-  "parent": "rustrelics:stage0/no_more_handcrafting",
+  "parent": "rustrelics:stage0/four_days_later",
   "display": {
     "icon": { "id": "create:crushed_raw_iron" },
-    "title": "The Factory Must Grow",
-    "description": "Eficiencia pura. Estás dejando de ser un sobreviviente para ser un ingeniero.",
+    "title": "La Fábrica Debe Crecer",
+    "description": "Eficiencia pura. Has pasado de ser sobreviviente a ingeniero.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

@@ -1,0 +1,31 @@
+{
+  "display": {
+    "title": "Escombros Antiguos",
+    "description": "Los restos de un material más allá del diamante. Aún no puedes forjarlo, pero ya sabes que existe.",
+    "icon": {
+      "id": "minecraft:ancient_debris"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "show_toast": true,
+    "hidden": false
+  },
+  "parent": "rustrelics:stage3/hominid_kill",
+  "criteria": {
+    "got_ancient_debris": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ancient_debris"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "got_ancient_debris"
+    ]
+  ]
+}

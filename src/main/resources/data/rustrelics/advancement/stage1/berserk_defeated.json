@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage0_complete",
   "display": {
     "icon": { "id": "galosphere:berserker_spawn_egg" },
-    "title": "The Colossus Falls",
-    "description": "§6§l[HITO GLOBAL] §fEl coloso ha caído. El Stage 1 ha comenzado. El mundo ha cambiado.",
+    "title": "El Coloso Cae",
+    "description": "§6§l[HITO GLOBAL] §fEl gigante de las ruinas ha caído. El mundo ha cambiado.",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,

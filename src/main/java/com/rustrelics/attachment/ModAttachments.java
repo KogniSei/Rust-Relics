@@ -22,4 +22,26 @@ public class ModAttachments {
                 .serialize(Codec.INT)
                 .build()
         );
+
+    /**
+     * Cuantos aldeanos ha matado el jugador. Persiste entre sesiones.
+     * Usado para escalar la Retribucion Karmica en Stage 5.
+     */
+    public static final Supplier<AttachmentType<Integer>> VILLAGER_KILLS =
+        ATTACHMENT_TYPES.register("villager_kills", () ->
+            AttachmentType.builder(() -> 0)
+                .serialize(Codec.INT)
+                .build()
+        );
+
+    /**
+     * Cuantos pillagers/illagers ha matado el jugador. Persiste entre sesiones.
+     * Usado por PillageThreatTracker para escalar la agresividad de la faccion.
+     */
+    public static final Supplier<AttachmentType<Integer>> PILLAGER_KILLS =
+        ATTACHMENT_TYPES.register("pillager_kills", () ->
+            AttachmentType.builder(() -> 0)
+                .serialize(Codec.INT)
+                .build()
+        );
 }

@@ -2,8 +2,8 @@
   "parent": "rustrelics:stage1/diamond_tools",
   "display": {
     "icon": { "id": "minecraft:obsidian" },
-    "title": "Below the Iron Veil",
-    "description": "La obsidiana cede ante el diamante. El Nether está sellado todavía, pero la roca más dura del mundo ya no te es inalcanzable.",
+    "title": "Bajo el Velo de Hierro",
+    "description": "La obsidiana cede ante el diamante. El Inframundo sigue sellado, pero la roca más dura ya no es un sueño.",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": false,

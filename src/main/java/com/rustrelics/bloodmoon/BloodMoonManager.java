@@ -65,12 +65,12 @@ public final class BloodMoonManager {
                         .getPlayerList()
                         .broadcastSystemMessage(
                             Component.literal(
-                                "§4[Rust & Relics] §fLa luna enrojece. Esta noche sera larga."
+                                "§4[Rust & Relics] §fLa luna brilla más de lo normal. Esta noche sera larga."
                             ),
                             false
                         );
                     RustRelics.LOGGER.info(
-                        "[R&R] Luna de Sangre activada (dia {}).",
+                        "[R&R] Luna palida activada (dia {}).",
                         dayCount
                     );
                 }
@@ -88,12 +88,12 @@ public final class BloodMoonManager {
                         .getPlayerList()
                         .broadcastSystemMessage(
                             Component.literal(
-                                "§6[Rust & Relics] §fEl amanecer llega. Sobreviviste."
+                                "§6[Rust & Relics] §fEl amanecer llega. Ganaste."
                             ),
                             false
                         );
                     RustRelics.LOGGER.info(
-                        "[R&R] Luna de Sangre desactivada (amanecer)."
+                        "[R&R] Luna palida desactivada (amanecer)."
                     );
                 }
             }
@@ -112,6 +112,12 @@ public final class BloodMoonManager {
 
     /** Espejo de solo escritura del flag al scoreboard rr_bloodmoon (compat datapacks). */
     private static void mirror(MinecraftServer server, int value) {
-        Scoreboards.set(server, BM_OBJECTIVE, "R&R Blood Moon", WORLD_HOLDER, value);
+        Scoreboards.set(
+            server,
+            BM_OBJECTIVE,
+            "R&R Blood Moon",
+            WORLD_HOLDER,
+            value
+        );
     }
 }
