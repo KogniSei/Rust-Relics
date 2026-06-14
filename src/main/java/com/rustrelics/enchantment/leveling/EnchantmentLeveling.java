@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -21,10 +22,16 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EnchantmentLeveling {
 
     private static final int PROGRESS_PER_ACTION = 1;
+
+    // Cooldown de armadura: solo registra progreso cada 10 ticks por jugador.
+    // Evita procesar hasta 16 enchantment stacks por golpe en combate rapido.
+    private static final int ARMOR_COOLDOWN_TICKS = 10;
+    private static final Map<UUID, Long> lastArmorTick = new HashMap<>();
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
@@ -37,12 +44,23 @@ public class EnchantmentLeveling {
 
     @SubscribeEvent
     public static void onDamage(LivingIncomingDamageEvent event) {
-        // Player recibe daño -> armadura
+        // Player recibe daño -> UNA pieza de armadura aleatoria, con cooldown
         if (event.getEntity() instanceof ServerPlayer player) {
             if (player.getAbilities().instabuild) return;
-            for (ItemStack armor : player.getArmorSlots()) {
-                addProgressAndLevelUp(armor, player);
-            }
+
+            long now = player.level().getGameTime();
+            Long last = lastArmorTick.get(player.getUUID());
+            if (last != null && now - last < ARMOR_COOLDOWN_TICKS) return;
+            lastArmorTick.put(player.getUUID(), now);
+
+            EquipmentSlot[] armorSlots = {
+                EquipmentSlot.HEAD,
+                EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS,
+                EquipmentSlot.FEET
+            };
+            EquipmentSlot chosen = armorSlots[player.level().random.nextInt(armorSlots.length)];
+            addProgressAndLevelUp(player.getItemBySlot(chosen), player);
         }
         // Player ataca -> arma
         if (event.getSource().getEntity() instanceof ServerPlayer player) {

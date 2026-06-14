@@ -49,6 +49,6 @@ public record EnchantmentProgress(Map<ResourceLocation, Integer> progress) {
 
     public static int getThreshold(int maxDamage, int targetLevel) {
         int base = Mth.clamp(maxDamage / 100, 1, 8);
-        return base * targetLevel * targetLevel;
+        return base * targetLevel * targetLevel * targetLevel;
     }
 }

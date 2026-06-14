@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.rustrelics.bloodmoon.BloodMoonBuffs;
 import com.rustrelics.bloodmoon.BloodMoonManager;
 import com.rustrelics.boss.BossBuffs;
+import com.rustrelics.boss.BossScaling;
 import com.rustrelics.boss.WitherBossBuffs;
 import com.rustrelics.command.RustRelicsCommands;
 import com.rustrelics.eclipse.EclipseMobEffects;
@@ -63,6 +64,8 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(StageTriggers.class);
         NeoForge.EVENT_BUS.register(BossBuffs.class);
         NeoForge.EVENT_BUS.register(WitherBossBuffs.class);
+        // Boss Scaling: ajusta HP segun jugadores cercanos
+        NeoForge.EVENT_BUS.register(BossScaling.class);
         NeoForge.EVENT_BUS.register(LifecycleSync.class);
         // Fase 3 — efectos de set
         NeoForge.EVENT_BUS.register(SetEffects.class);
