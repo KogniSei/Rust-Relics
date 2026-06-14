@@ -21,7 +21,7 @@ public record EnchantmentProgress(Map<ResourceLocation, Integer> progress) {
 
     public static final StreamCodec<ByteBuf, EnchantmentProgress> STREAM_CODEC =
             ByteBufCodecs.map(HashMap::new, ResourceLocation.STREAM_CODEC, ByteBufCodecs.INT)
-                    .map(EnchantmentProgress::new, EnchantmentProgress::progress);
+                    .map((HashMap<ResourceLocation, Integer> m) -> new EnchantmentProgress(m), p -> new HashMap<>(p.progress()));
 
     public static final EnchantmentProgress EMPTY = new EnchantmentProgress(Collections.emptyMap());
 

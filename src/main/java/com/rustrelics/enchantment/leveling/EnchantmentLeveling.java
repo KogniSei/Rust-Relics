@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -67,7 +68,7 @@ public class EnchantmentLeveling {
             int currentLevel = oldEnch.getLevel(holder);
             int maxLevel = holder.value().getMaxLevel();
 
-            if (holder.value().isCurse()) continue;
+            if (holder.is(EnchantmentTags.CURSE)) continue;
             if (currentLevel >= maxLevel) continue;
 
             ResourceLocation enchId = holder.getKey().location();
@@ -96,7 +97,8 @@ public class EnchantmentLeveling {
                 int newLevel = entry.getValue();
                 mutable.set(ench, newLevel);
 
-                Component enchName = Component.translatable(ench.value().descriptionId());
+                ResourceLocation enchLoc = ench.getKey().location();
+                Component enchName = Component.translatable("enchantment." + enchLoc.getNamespace() + "." + enchLoc.getPath());
                 player.displayClientMessage(
                         Component.literal("§d[").append(enchName)
                                 .append(" ")
