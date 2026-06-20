@@ -36,11 +36,12 @@ public final class HardmodeBuffs {
     private static final String BUFFED_TAG = "rr_hm_buffed";
     private static final int HARDMODE_STAGE = 3;
 
-    private static final double HEALTH_MULT = 2.5;
-    private static final double DAMAGE_MULT = 0.10;
+    private static final double HEALTH_MULT = 1.43;        // +43% vida base
+    private static final double DAMAGE_MULT = 2.0;         // x2 daño base
     private static final double XP_BONUS = 5.2;
-    private static final float BONUS_LOOT_CHANCE = 0.25f; // ajustable: drop extra global
+    private static final float BONUS_LOOT_CHANCE = 0.25f;
     private static final double ARMOR_BONUS = 2.02;
+    private static final float EXTRA_SPAWN_CHANCE = 0.35f; // 35% chance de spawn extra
 
     private HardmodeBuffs() {}
 
@@ -83,6 +84,22 @@ public final class HardmodeBuffs {
         AttributeInstance armor = living.getAttribute(Attributes.ARMOR);
         if (armor != null) {
             armor.setBaseValue(armor.getBaseValue() + ARMOR_BONUS);
+        }
+
+        // Spawn rate: chance de spawnear 1 mob extra del mismo tipo cerca
+        if (living.getRandom().nextFloat() < EXTRA_SPAWN_CHANCE) {
+            level.getServer().execute(() -> {
+                try {
+                    LivingEntity extra = (LivingEntity) living.getType().create(level);
+                    if (extra != null) {
+                        extra.moveTo(living.getX() + (living.getRandom().nextDouble() - 0.5) * 4,
+                                     living.getY(),
+                                     living.getZ() + (living.getRandom().nextDouble() - 0.5) * 4,
+                                     living.getYRot(), living.getXRot());
+                        level.addFreshEntity(extra);
+                    }
+                } catch (Exception ignored) {}
+            });
         }
     }
 

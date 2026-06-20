@@ -82,25 +82,16 @@ public final class StageTriggers {
     private static final ResourceLocation GUARDIAN_HP_MOD = ResourceLocation.parse(
         "rustrelics:guardian_hp"
     );
-    private static final ResourceLocation GUARDIAN_DMG_MOD = ResourceLocation.parse(
-        "rustrelics:guardian_dmg"
-    );
 
     private static void awardGuardianBlessing(ServerPlayer player) {
         AttributeInstance health = player.getAttribute(Attributes.MAX_HEALTH);
         if (health != null && health.getModifier(GUARDIAN_HP_MOD) == null) {
             health.addTransientModifier(
-                new AttributeModifier(GUARDIAN_HP_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-            );
-        }
-        AttributeInstance dmg = player.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (dmg != null && dmg.getModifier(GUARDIAN_DMG_MOD) == null) {
-            dmg.addTransientModifier(
-                new AttributeModifier(GUARDIAN_DMG_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                new AttributeModifier(GUARDIAN_HP_MOD, 0.35, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             );
         }
         player.sendSystemMessage(
-            Component.literal("§b[Rust & Relics] §fBendición del Guardián: §e§lx1.5 §fvida y daño.")
+            Component.literal("§b[Rust & Relics] §fBendición del Guardián: §e§l+35% §fvida máxima.")
         );
     }
 
