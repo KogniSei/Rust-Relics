@@ -33,7 +33,7 @@ public final class Scoreboards {
             obj = sb.addObjective(objectiveName, ObjectiveCriteria.DUMMY,
                     Component.literal(displayName), ObjectiveCriteria.RenderType.INTEGER, false, null);
         }
-        ScoreAccess access = sb.getOrCreateScore(ScoreHolder.forNameOnly(holder), obj, true);
+        ScoreAccess access = sb.getOrCreatePlayerScore(ScoreHolder.forNameOnly(holder), obj);
         access.set(value);
     }
 }
