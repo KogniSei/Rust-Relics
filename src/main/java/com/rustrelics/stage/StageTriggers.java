@@ -1,6 +1,7 @@
 package com.rustrelics.stage;
 
 import com.rustrelics.RustRelics;
+import com.rustrelics.silent.HealthTracker;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -86,13 +87,20 @@ public final class StageTriggers {
     private static void awardGuardianBlessing(ServerPlayer player) {
         AttributeInstance health = player.getAttribute(Attributes.MAX_HEALTH);
         if (health != null && health.getModifier(GUARDIAN_HP_MOD) == null) {
-            health.addTransientModifier(
+            // PERMANENTE (se guarda con el jugador): sobrevive a relog/reinicio.
+            // La guarda getModifier==null garantiza que se aplica UNA sola vez.
+            // Solo se llama para el ServerPlayer que mata al Elder Guardian, asi
+            // que el buff es exclusivo del jugador y nunca toca a los mobs.
+            health.addPermanentModifier(
                 new AttributeModifier(GUARDIAN_HP_MOD, 0.35, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             );
+            // La vida maxima cambio: refrescar el health stage (no pasa por equipo).
+            HealthTracker.recalculate(player);
+            // Mensaje SOLO la primera vez (si ya lo tenia, no se repite en kills posteriores).
+            player.sendSystemMessage(
+                Component.literal("§b[Rust & Relics] §fBendición del Guardián: §e§l+35% §fvida máxima.")
+            );
         }
-        player.sendSystemMessage(
-            Component.literal("§b[Rust & Relics] §fBendición del Guardián: §e§l+35% §fvida máxima.")
-        );
     }
 
     @SubscribeEvent

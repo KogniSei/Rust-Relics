@@ -3,6 +3,7 @@ package com.rustrelics.stage;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
@@ -42,6 +43,9 @@ public final class WardenBlessing {
 
     @SubscribeEvent
     public static void onEffectApplicable(MobEffectEvent.Applicable event) {
+        // La bendicion del Warden SOLO beneficia a los jugadores; ningun otro mob
+        // (hostil, neutral o pasivo) ve sus efectos negativos reducidos.
+        if (!(event.getEntity() instanceof Player)) return;
         if (!(event.getEntity().level() instanceof ServerLevel level)) return;
         if (!StageSavedData.get(level).isWardenSlain()) return;
 

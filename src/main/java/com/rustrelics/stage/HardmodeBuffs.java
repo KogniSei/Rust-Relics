@@ -4,6 +4,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -99,10 +101,15 @@ public final class HardmodeBuffs {
             try {
                 LivingEntity extra = (LivingEntity) living.getType().create(level);
                 if (extra != null) {
+                    markBuffed(extra); // corta la recursion: el extra NO debe re-multiplicarse
                     extra.moveTo(living.getX() + (living.getRandom().nextDouble() - 0.5) * 4,
                                  living.getY(),
                                  living.getZ() + (living.getRandom().nextDouble() - 0.5) * 4,
                                  living.getYRot(), living.getXRot());
+                    if (extra instanceof Mob mob) {
+                        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
+                                MobSpawnType.MOB_SUMMONED, null);
+                    }
                     level.addFreshEntity(extra);
                 }
             } catch (Exception ignored) {}

@@ -84,6 +84,7 @@ public final class BloodMoonManager {
                 if (active) {
                     data.setBloodmoon(0);
                     mirror(server, 0);
+                    revertBuffs(server);
                     server
                         .getPlayerList()
                         .broadcastSystemMessage(
@@ -102,6 +103,33 @@ public final class BloodMoonManager {
         // -- Mediodia: resetear flag para la proxima noche --
         if (dayTime >= 5900 && dayTime < 6100) {
             data.setBmChecked(false);
+        }
+    }
+
+    /** Fuerza el estado de la Luna Palida (debug). */
+    public static void forceSet(MinecraftServer server, boolean active) {
+        StageSavedData data = StageSavedData.get(server.overworld());
+        int value = active ? 1 : 0;
+        data.setBloodmoon(value);
+        mirror(server, value);
+        data.setBmChecked(active);
+        data.setBmDawnSent(!active);
+        if (!active) {
+            revertBuffs(server);
+        }
+        server.getPlayerList().broadcastSystemMessage(
+            Component.literal(active
+                ? "§4[DEBUG] §fLuna Palida §cFORZADA§f."
+                : "§4[DEBUG] §fLuna Palida §adesactivada§f (forzado)."),
+            false
+        );
+        RustRelics.LOGGER.info("[R&R DEBUG] Luna Palida forzada a {}.", value);
+    }
+
+    /** Retira los buffs de luna de todos los mobs cargados, en todas las dimensiones. */
+    private static void revertBuffs(MinecraftServer server) {
+        for (ServerLevel level : server.getAllLevels()) {
+            BloodMoonBuffs.revertAll(level);
         }
     }
 

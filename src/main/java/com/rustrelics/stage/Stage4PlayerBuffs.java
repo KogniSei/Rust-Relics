@@ -1,6 +1,7 @@
 package com.rustrelics.stage;
 
 import com.rustrelics.RustRelics;
+import com.rustrelics.silent.HealthTracker;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -91,5 +92,9 @@ public final class Stage4PlayerBuffs {
                 );
             }
         }
+
+        // La vida maxima acaba de cambiar: refrescar el health stage (no pasa por
+        // un cambio de equipo, asi que HealthTracker no se enteraria solo).
+        HealthTracker.recalculate(player);
     }
 }

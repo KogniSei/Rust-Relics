@@ -4,20 +4,18 @@ import com.rustrelics.RustRelics;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 /**
  * Escalado de jefes por cantidad de jugadores cercanos.
@@ -27,11 +25,20 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
  *
  * Se ejecuta en LOWEST priority para escalar DESPUES de que
  * BossBuffs y WitherBossBuffs hayan puesto sus HP personalizados.
+ *
+ * El escalado se aplica como un AttributeModifier PERMANENTE (no muta la base):
+ * asi nunca corrompe el HP base del jefe, se guarda con la entidad y, gracias a
+ * la guarda {@code getModifier(SCALE_MOD) != null}, NUNCA se re-escala — ni en
+ * recarga de chunk ni tras reiniciar el servidor (antes setBaseValue componia el
+ * HP en cada arranque si el jefe sobrevivia).
  */
 public class BossScaling {
 
     private static final int SCAN_RADIUS = 80;
     private static final double HP_PER_PLAYER = 0.40;
+
+    private static final ResourceLocation SCALE_MOD =
+            ResourceLocation.fromNamespaceAndPath("rustrelics", "boss_player_scaling");
 
     private static final Set<String> BOSS_IDS = new HashSet<>(
         Set.of(
@@ -51,9 +58,6 @@ public class BossScaling {
         )
     );
 
-    // IDs de jefes ya escalados en esta sesion. Previene re-escalado en recarga de chunks.
-    private static final Set<UUID> scaledBosses = new HashSet<>();
-
     private BossScaling() {}
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -65,16 +69,15 @@ public class BossScaling {
             living.getType()
         );
         if (!BOSS_IDS.contains(id.toString())) return;
-
-        if (!scaledBosses.add(living.getUUID())) return;
         if (!(event.getLevel() instanceof ServerLevel level)) return;
 
         AttributeInstance healthAttr = living.getAttribute(
             Attributes.MAX_HEALTH
         );
         if (healthAttr == null) return;
+        // Ya escalado (el modificador permanente se guarda con la entidad).
+        if (healthAttr.getModifier(SCALE_MOD) != null) return;
 
-        double baseHp = healthAttr.getBaseValue();
         List<ServerPlayer> nearby = level.getEntitiesOfClass(
             ServerPlayer.class,
             AABB.ofSize(
@@ -87,36 +90,21 @@ public class BossScaling {
         );
 
         int playerCount = Math.max(nearby.size(), 1);
-        double multiplier = 1.0 + HP_PER_PLAYER * (playerCount - 1);
-        double scaledHp = baseHp * multiplier;
+        // ADD_MULTIPLIED_BASE: suma (bonus * base) al HP. bonus = 0.40 * (N - 1).
+        double bonus = HP_PER_PLAYER * (playerCount - 1);
+        if (bonus <= 0) return; // 1 jugador (o ninguno): sin escalado
 
-        healthAttr.setBaseValue(scaledHp);
-        living.setHealth((float) scaledHp);
+        healthAttr.addPermanentModifier(new AttributeModifier(
+                SCALE_MOD, bonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        living.setHealth(living.getMaxHealth());
 
         RustRelics.LOGGER.info(
-            "[R&R] {} escalado: {} jugadores cerca, HP base {}/{} -> {} (x{})",
+            "[R&R] {} escalado: {} jugadores cerca, +{}% HP (x{}).",
             id.getPath(),
             playerCount,
-            baseHp,
-            scaledHp,
-            multiplier
+            (int) Math.round(bonus * 100),
+            1.0 + bonus
         );
     }
 
-    @SubscribeEvent
-    public static void onServerTick(ServerTickEvent.Post event) {
-        // Limpieza de UUIDs obsoletos cada 5 minutos para evitar memory leak
-        if (event.getServer().getTickCount() % 6000 != 0) return;
-        scaledBosses.removeIf(uuid -> {
-            for (ServerLevel level : event.getServer().getAllLevels()) {
-                if (level.getEntity(uuid) != null) return false;
-            }
-            return true;
-        });
-    }
-
-    @SubscribeEvent
-    public static void onEntityDeath(LivingDeathEvent event) {
-        scaledBosses.remove(event.getEntity().getUUID());
-    }
 }

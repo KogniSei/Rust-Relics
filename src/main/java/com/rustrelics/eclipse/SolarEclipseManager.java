@@ -32,6 +32,27 @@ public final class SolarEclipseManager {
 
     private SolarEclipseManager() {}
 
+    /** Fuerza el estado del Eclipse Solar (debug). */
+    public static void forceSet(MinecraftServer server, boolean active) {
+        ServerLevel overworld = server.overworld();
+        StageSavedData data = StageSavedData.get(overworld);
+        if (active) {
+            data.setEclipseTicks(ECLIPSE_DURATION);
+            data.setEclipseChecked(true);
+            data.setEclipseDawnSent(true);
+            overworld.setWeatherParameters(0, ECLIPSE_DURATION + 100, true, false);
+            server.getPlayerList().broadcastSystemMessage(
+                Component.literal("§4[DEBUG] §fEclipse Solar §cFORZADO§f."), false);
+            RustRelics.LOGGER.info("[R&R DEBUG] Eclipse Solar forzado ON.");
+        } else {
+            data.setEclipseTicks(0);
+            overworld.setWeatherParameters(999999, 0, false, false);
+            server.getPlayerList().broadcastSystemMessage(
+                Component.literal("§6[DEBUG] §fEclipse Solar §adesactivado§f (forzado)."), false);
+            RustRelics.LOGGER.info("[R&R DEBUG] Eclipse Solar forzado OFF.");
+        }
+    }
+
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Post event) {
         MinecraftServer server = event.getServer();
@@ -45,12 +66,12 @@ public final class SolarEclipseManager {
         long eclipseTicks = data.getEclipseTicks();
 
         // --- Eclipse activo: contar hacia abajo ---
+        // La lluvia se fija UNA sola vez al programar el eclipse (no se re-fuerza
+        // cada tick, para no pisar el control de clima constantemente). Aqui solo
+        // contamos y, al llegar a 0, restauramos el cielo despejado.
         if (eclipseTicks > 0) {
             long next = Math.max(0, eclipseTicks - CHECK_INTERVAL);
             data.setEclipseTicks(next);
-
-            // Forzar lluvia para que mobs no ardan (isSunBurnTick chequea !isRaining)
-            overworld.setWeatherParameters(0, (int) (next + 100), true, false);
 
             if (next == 0) {
                 overworld.setWeatherParameters(999999, 0, false, false);
@@ -77,6 +98,8 @@ public final class SolarEclipseManager {
                 if (overworld.getRandom().nextFloat() < ECLIPSE_CHANCE) {
                     data.setEclipseTicks(ECLIPSE_DURATION);
                     data.setEclipseDawnSent(true);
+                    // Lluvia para toda la duracion del eclipse, fijada una sola vez.
+                    overworld.setWeatherParameters(0, ECLIPSE_DURATION + 200, true, false);
                     server.getPlayerList().broadcastSystemMessage(Component.literal(
                             "§4[Rust & Relics] §fEl sol se oculta tras un velo antinatural. Mañana no saldra el sol."),
                             false);

@@ -53,6 +53,7 @@ public final class DeadMoonManager {
                 data.setDmDawnSent(true);
                 if (active) {
                     data.setDeadmoon(0);
+                    revertBuffs(server);
                     server.getPlayerList().broadcastSystemMessage(
                         Component.literal("§7[Rust & Relics] §fLa luna muerta se desvanece con el alba."),
                         false
@@ -68,7 +69,33 @@ public final class DeadMoonManager {
         }
     }
 
+    /** Fuerza el estado de la Luna Muerta (debug). */
+    public static void forceSet(MinecraftServer server, boolean active) {
+        StageSavedData data = StageSavedData.get(server.overworld());
+        int value = active ? 1 : 0;
+        data.setDeadmoon(value);
+        data.setDmChecked(active);
+        data.setDmDawnSent(!active);
+        if (!active) {
+            revertBuffs(server);
+        }
+        server.getPlayerList().broadcastSystemMessage(
+            Component.literal(active
+                ? "§8[DEBUG] §fLuna Muerta §cFORZADA§f."
+                : "§8[DEBUG] §fLuna Muerta §adesactivada§f (forzado)."),
+            false
+        );
+        RustRelics.LOGGER.info("[R&R DEBUG] Luna Muerta forzada a {}.", value);
+    }
+
     public static boolean isActive(ServerLevel level) {
         return StageSavedData.get(level).getDeadmoon() == 1;
+    }
+
+    /** Retira los buffs de luna muerta de todos los mobs cargados, en todas las dimensiones. */
+    private static void revertBuffs(MinecraftServer server) {
+        for (ServerLevel level : server.getAllLevels()) {
+            DeadMoonBuffs.revertAll(level);
+        }
     }
 }

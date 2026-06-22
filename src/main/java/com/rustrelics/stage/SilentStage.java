@@ -66,10 +66,20 @@ public final class SilentStage {
         writeScoreboard(level, player, silent);
     }
 
-    /** Escribe rr_silent_stage para el jugador. */
-    private static void writeScoreboard(ServerLevel level, ServerPlayer player, int value) {
+    /** Escribe rr_silent_stage para el jugador (público para comandos de debug). */
+    public static void writeScoreboard(ServerLevel level, ServerPlayer player, int value) {
         Scoreboards.set(level.getServer(), SCOREBOARD_OBJECTIVE, "Silent Stage",
                 player.getScoreboardName(), value);
+    }
+
+    /** Lee rr_silent_stage desde el scoreboard (público para comandos de debug). */
+    public static int readScoreboard(ServerPlayer player) {
+        var obj = player.serverLevel().getServer().getScoreboard().getObjective(SCOREBOARD_OBJECTIVE);
+        if (obj == null) return 0;
+        var access = player.serverLevel().getServer().getScoreboard()
+                .getOrCreatePlayerScore(
+                        net.minecraft.world.scores.ScoreHolder.forNameOnly(player.getScoreboardName()), obj);
+        return access.get();
     }
 
     /**

@@ -53,6 +53,14 @@ public final class PillageThreatTracker {
         if (kills > 0) writeScores(player, kills);
     }
 
+    /**
+     * Fuerza el valor de pillage kills/threat para un jugador (debug).
+     */
+    public static void forceSet(ServerPlayer player, int kills) {
+        player.setData(ModAttachments.PILLAGER_KILLS, kills);
+        writeScores(player, kills);
+    }
+
     private static void writeScores(ServerPlayer player, int kills) {
         int threat = calcThreat(kills);
         Scoreboards.set(player.serverLevel().getServer(), KILLS_SCOREBOARD,

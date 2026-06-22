@@ -35,11 +35,29 @@ public final class HealthTracker {
         recalculate(player);
     }
 
-    private static void recalculate(ServerPlayer player) {
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        recalculate(player);
+    }
+
+    /**
+     * Reevalua el health stage del jugador a partir de su vida maxima ACTUAL
+     * (incluye modificadores de atributo). Publico para poder recalcular justo
+     * despues de aplicar buffs de vida que no pasan por un cambio de equipo
+     * (Stage 4, bendicion del Elder Guardian, etc.).
+     */
+    public static void recalculate(ServerPlayer player) {
         float hp = (float) player.getAttributeValue(Attributes.MAX_HEALTH);
         int value = hp >= THIRTEEN_HEARTS ? 1 : 0;
-        ServerLevel level = player.serverLevel();
-        Scoreboards.set(level.getServer(), SCOREBOARD, "Health Stage",
+        forceSet(player, value);
+    }
+
+    /**
+     * Fuerza el valor de health stage para un jugador (debug).
+     */
+    public static void forceSet(ServerPlayer player, int value) {
+        Scoreboards.set(player.serverLevel().getServer(), SCOREBOARD, "Health Stage",
                 player.getScoreboardName(), value);
     }
 }
