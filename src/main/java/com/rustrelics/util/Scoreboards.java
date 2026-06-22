@@ -3,6 +3,7 @@ package com.rustrelics.util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.scores.Objective;
+import net.minecraft.world.scores.ScoreAccess;
 import net.minecraft.world.scores.ScoreHolder;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
@@ -32,6 +33,7 @@ public final class Scoreboards {
             obj = sb.addObjective(objectiveName, ObjectiveCriteria.DUMMY,
                     Component.literal(displayName), ObjectiveCriteria.RenderType.INTEGER, false, null);
         }
-        sb.getOrCreatePlayerScore(ScoreHolder.forNameOnly(holder), obj).set(value);
+        ScoreAccess access = sb.getOrCreateScore(ScoreHolder.forNameOnly(holder), obj, true);
+        access.set(value);
     }
 }

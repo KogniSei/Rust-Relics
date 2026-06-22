@@ -39,6 +39,11 @@ public class StageSavedData extends SavedData {
     // --- Stage Secreto: Warden ---
     private boolean wardenSlain = false;
 
+    // --- Luna Muerta (nueva luna) ---
+    private int deadmoon = 0;
+    private boolean dmChecked = false;
+    private boolean dmDawnSent = false;
+
     public StageSavedData() {
     }
 
@@ -156,6 +161,43 @@ public class StageSavedData extends SavedData {
     }
 
     // ------------------------------------------------------------------
+    // Luna Muerta
+    // ------------------------------------------------------------------
+
+    public int getDeadmoon() {
+        return deadmoon;
+    }
+
+    public void setDeadmoon(int value) {
+        if (this.deadmoon != value) {
+            this.deadmoon = value;
+            setDirty();
+        }
+    }
+
+    public boolean isDmChecked() {
+        return dmChecked;
+    }
+
+    public void setDmChecked(boolean value) {
+        if (this.dmChecked != value) {
+            this.dmChecked = value;
+            setDirty();
+        }
+    }
+
+    public boolean isDmDawnSent() {
+        return dmDawnSent;
+    }
+
+    public void setDmDawnSent(boolean value) {
+        if (this.dmDawnSent != value) {
+            this.dmDawnSent = value;
+            setDirty();
+        }
+    }
+
+    // ------------------------------------------------------------------
     // Persistencia (firma 1.21.1: incluye HolderLookup.Provider)
     // ------------------------------------------------------------------
 
@@ -169,6 +211,9 @@ public class StageSavedData extends SavedData {
         data.eclipseChecked = tag.getBoolean("eclipseChecked");
         data.eclipseDawnSent = tag.getBoolean("eclipseDawnSent");
         data.wardenSlain = tag.getBoolean("wardenSlain");
+        data.deadmoon = tag.getInt("deadmoon");
+        data.dmChecked = tag.getBoolean("dmChecked");
+        data.dmDawnSent = tag.getBoolean("dmDawnSent");
         return data;
     }
 
@@ -182,6 +227,9 @@ public class StageSavedData extends SavedData {
         tag.putBoolean("eclipseChecked", eclipseChecked);
         tag.putBoolean("eclipseDawnSent", eclipseDawnSent);
         tag.putBoolean("wardenSlain", wardenSlain);
+        tag.putInt("deadmoon", deadmoon);
+        tag.putBoolean("dmChecked", dmChecked);
+        tag.putBoolean("dmDawnSent", dmDawnSent);
         return tag;
     }
 }

@@ -10,9 +10,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 /**
- * Maquina de estados de la Luna de Sangre. Porta la deteccion nocturna de
- * blood_moon.js. Evento global y barato: una sola comprobacion cada 40 ticks
- * sobre el overworld, NO un bucle por jugador.
+ * Maquina de estados de la Luna Palida (antes Luna de Sangre). Porta la deteccion
+ * nocturna de blood_moon.js. Evento global y barato: una sola comprobacion cada
+ * 40 ticks sobre el overworld, NO un bucle por jugador.
  *
  * Activacion: cae la noche (13000) + fase lunar 0 (luna llena) + 30% prob.
  * Desactivacion: amanecer (23000).
@@ -40,7 +40,7 @@ public final class BloodMoonManager {
         ServerLevel overworld = server.overworld();
         StageSavedData data = StageSavedData.get(overworld);
         if (data.getStage() < 1) {
-            return; // luna de sangre solo en Stage 1+
+            return; // luna palida solo en Stage 1+
         }
 
         long absTime = overworld.getDayTime();
@@ -65,7 +65,7 @@ public final class BloodMoonManager {
                         .getPlayerList()
                         .broadcastSystemMessage(
                             Component.literal(
-                                "§4[Rust & Relics] §fLa luna brilla más de lo normal. Esta noche sera larga."
+                                "§f[Rust & Relics] §7La luna palida se alza en el cielo..."
                             ),
                             false
                         );
@@ -88,7 +88,7 @@ public final class BloodMoonManager {
                         .getPlayerList()
                         .broadcastSystemMessage(
                             Component.literal(
-                                "§6[Rust & Relics] §fEl amanecer llega. Ganaste."
+                                "§f[Rust & Relics] §7El amanecer disipa la luna palida."
                             ),
                             false
                         );
@@ -115,7 +115,7 @@ public final class BloodMoonManager {
         Scoreboards.set(
             server,
             BM_OBJECTIVE,
-            "R&R Blood Moon",
+            "R&R Luna Palida",
             WORLD_HOLDER,
             value
         );

@@ -3,6 +3,8 @@ package com.rustrelics;
 import com.mojang.logging.LogUtils;
 import com.rustrelics.bloodmoon.BloodMoonBuffs;
 import com.rustrelics.bloodmoon.BloodMoonManager;
+import com.rustrelics.bloodmoon.DeadMoonBuffs;
+import com.rustrelics.bloodmoon.DeadMoonManager;
 import com.rustrelics.boss.BossBuffs;
 import com.rustrelics.boss.BossScaling;
 import com.rustrelics.boss.WitherBossBuffs;
@@ -12,6 +14,7 @@ import com.rustrelics.eclipse.SolarEclipseManager;
 import com.rustrelics.effects.KarmicRetributionHandler;
 import com.rustrelics.effects.ModEffects;
 import com.rustrelics.effects.VillagerKillTracker;
+import com.rustrelics.item.ItemObliterator;
 import com.rustrelics.attachment.ModAttachments;
 import com.rustrelics.enchantment.leveling.EnchantmentLeveling;
 import com.rustrelics.enchantment.leveling.ModCompat;
@@ -74,6 +77,9 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(SpawnControl.class);
         NeoForge.EVENT_BUS.register(BloodMoonManager.class);
         NeoForge.EVENT_BUS.register(BloodMoonBuffs.class);
+        // Luna Muerta (nueva luna)
+        NeoForge.EVENT_BUS.register(DeadMoonManager.class);
+        NeoForge.EVENT_BUS.register(DeadMoonBuffs.class);
         // Hardmode permanente (Stage 3+)
         NeoForge.EVENT_BUS.register(HardmodeBuffs.class);
         // Stage 4: buffs al jugador y stage silencioso
@@ -96,6 +102,9 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(PillageThreatTracker.class);
         // Diamond Focus: cristal charges del set de diamante
         NeoForge.EVENT_BUS.register(DiamondFocus.class);
+        // Item Obliterator: erradica items del item_obliterator.json5
+        ItemObliterator.loadConfig();
+        NeoForge.EVENT_BUS.register(ItemObliterator.class);
         // Enchantment Leveling: mejora de encantamientos por uso
         NeoForge.EVENT_BUS.register(EnchantmentLeveling.class);
         // Mod Compat: deteccion de mods de encantamientos

@@ -17,16 +17,26 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 
 /**
- * Efectos de la Luna de Sangre sobre los mobs. Porta las ramas de spawn, loot y
- * XP de blood_moon.js. El loot, que en KubeJS usaba LootJS, aqui se inyecta por
- * LivingDropsEvent (event-driven, sin datapack adicional).
+ * Efectos de la Luna Palida sobre los mobs hostiles.
  *
- * Solo afecta mientras la luna esta activa y Stage >= 1. "Hostil" = tiene el
- * atributo attack_damage (filtro identico al original).
+ * Durante la Luna Palida, los mobs hostiles reciben:
+ *   - Buff de vida y daño (+50% base, +15% por jugador extra dentro de 64 bloques)
+ *   - Aumento de spawn rate (+125% base, +15% por jugador extra dentro de 64 bloques)
+ *
+ * "Hostil" = tiene el atributo attack_damage (filtro identico al original).
+ * Solo afecta mientras la luna palida esta activa y Stage >= 1.
  */
 public final class BloodMoonBuffs {
 
     private static final String BUFFED_TAG = "rr_bm_buffed";
+
+    private static boolean isBuffed(LivingEntity entity) {
+        return entity.getPersistentData().getBoolean(BUFFED_TAG);
+    }
+
+    private static void markBuffed(LivingEntity entity) {
+        entity.getPersistentData().putBoolean(BUFFED_TAG, true);
+    }
 
     private BloodMoonBuffs() {}
 
@@ -41,32 +51,61 @@ public final class BloodMoonBuffs {
 
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
-        if (!(event.getLevel() instanceof ServerLevel level)) {
-            return;
-        }
-        if (!(event.getEntity() instanceof LivingEntity living)) {
-            return;
-        }
-        if (living instanceof ServerPlayer) {
-            return;
-        }
-        if (!bloodMoonActive(level) || !isHostile(living)) {
-            return;
-        }
-        if (living.getTags().contains(BUFFED_TAG)) {
-            return; // ya buffeado (evita compuesto en recarga de chunk)
-        }
-        living.addTag(BUFFED_TAG);
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (!(event.getEntity() instanceof LivingEntity living)) return;
+        if (living instanceof ServerPlayer) return;
+        if (!bloodMoonActive(level) || !isHostile(living)) return;
+        if (isBuffed(living)) return;
+        markBuffed(living);
+
+        // Contar jugadores dentro de 64 bloques del mob
+        long nearby = level.players().stream()
+                .filter(p -> p.distanceToSqr(living) <= 64.0 * 64.0)
+                .count();
+        if (nearby < 1) nearby = 1;
+
+        double scale = 1.0 + (nearby - 1) * 0.15;
+
+        // Buff de vida y daño: base +50%, escala +15% por jugador extra
+        double statMult = 1.0 + 0.50 * scale;
 
         AttributeInstance health = living.getAttribute(Attributes.MAX_HEALTH);
         if (health != null) {
-            health.setBaseValue(health.getBaseValue() * 1.85);
+            health.setBaseValue(health.getBaseValue() * statMult);
             living.setHealth(living.getMaxHealth());
         }
+
         AttributeInstance dmg = living.getAttribute(Attributes.ATTACK_DAMAGE);
         if (dmg != null) {
-            dmg.setBaseValue(dmg.getBaseValue() * 1.40);
+            dmg.setBaseValue(dmg.getBaseValue() * statMult);
         }
+
+        // Spawn rate: base +125%, escala +15% por jugador extra
+        double extraChance = 1.25 * scale;
+        int guaranteed = (int) extraChance;
+        double fractional = extraChance - guaranteed;
+
+        for (int i = 0; i < guaranteed; i++) {
+            spawnExtra(living, level);
+        }
+        if (living.getRandom().nextFloat() < fractional) {
+            spawnExtra(living, level);
+        }
+    }
+
+    private static void spawnExtra(LivingEntity original, ServerLevel level) {
+        try {
+            LivingEntity extra = (LivingEntity) original.getType().create(level);
+            if (extra != null) {
+                extra.moveTo(
+                    original.getX() + (original.getRandom().nextDouble() - 0.5) * 6,
+                    original.getY(),
+                    original.getZ() + (original.getRandom().nextDouble() - 0.5) * 6,
+                    original.getYRot(), original.getXRot()
+                );
+                level.addFreshEntity(extra);
+            }
+        } catch (Exception ignored) {}
     }
 
     // --- Loot mejorado (solo kills de jugador) ---

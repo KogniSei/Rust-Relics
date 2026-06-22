@@ -9,11 +9,8 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 public final class EternalNightManager {
 
     private static final int CHECK_INTERVAL = 20;
-    private static final long NIGHT_START = 18000L;
+    private static final long MIDNIGHT = 18000L;
     private static final long DAY_CYCLE = 24000L;
-
-    private static final long NIGHT_RANGE_START = 18000L;
-    private static final long NIGHT_RANGE_END = 23999L;
 
     private EternalNightManager() {}
 
@@ -27,19 +24,12 @@ public final class EternalNightManager {
 
         if (stage != 4) return;
 
-        long dayTime = overworld.getDayTime() % DAY_CYCLE;
-
-        if (dayTime < NIGHT_RANGE_START || dayTime > NIGHT_RANGE_END) {
-            long currentDay = overworld.getDayTime() - dayTime;
-            overworld.setDayTime(currentDay + NIGHT_START);
-        }
+        long currentDay = overworld.getDayTime() - (overworld.getDayTime() % DAY_CYCLE);
+        overworld.setDayTime(currentDay + MIDNIGHT);
     }
 
     public static void restoreDayCycle(ServerLevel level) {
-        long dayTime = level.getDayTime() % DAY_CYCLE;
-        if (dayTime >= NIGHT_RANGE_START && dayTime <= NIGHT_RANGE_END) {
-            long currentDay = level.getDayTime() - dayTime;
-            level.setDayTime(currentDay + 1000L);
-        }
+        long currentDay = level.getDayTime() - (level.getDayTime() % DAY_CYCLE);
+        level.setDayTime(currentDay + 1000L);
     }
 }

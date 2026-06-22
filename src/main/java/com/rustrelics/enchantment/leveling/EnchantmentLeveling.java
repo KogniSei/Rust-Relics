@@ -18,6 +18,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.HashMap;
@@ -32,6 +33,11 @@ public class EnchantmentLeveling {
     // Evita procesar hasta 16 enchantment stacks por golpe en combate rapido.
     private static final int ARMOR_COOLDOWN_TICKS = 10;
     private static final Map<UUID, Long> lastArmorTick = new HashMap<>();
+
+    @SubscribeEvent
+    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        lastArmorTick.remove(event.getEntity().getUUID());
+    }
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {

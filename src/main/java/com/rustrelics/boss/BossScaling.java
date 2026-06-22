@@ -103,6 +103,18 @@ public class BossScaling {
     }
 
     @SubscribeEvent
+    public static void onServerTick(ServerTickEvent.Post event) {
+        // Limpieza de UUIDs obsoletos cada 5 minutos para evitar memory leak
+        if (event.getServer().getTickCount() % 6000 != 0) return;
+        scaledBosses.removeIf(uuid -> {
+            for (ServerLevel level : event.getServer().getAllLevels()) {
+                if (level.getEntity(uuid) != null) return false;
+            }
+            return true;
+        });
+    }
+
+    @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         scaledBosses.remove(event.getEntity().getUUID());
     }

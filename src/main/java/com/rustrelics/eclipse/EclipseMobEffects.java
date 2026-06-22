@@ -3,10 +3,11 @@ package com.rustrelics.eclipse;
 import com.rustrelics.stage.StageSavedData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+
+import java.util.List;
 
 /**
  * Evita que los mobs se quemen con el sol durante un Eclipse Solar.
@@ -30,10 +31,11 @@ public final class EclipseMobEffects {
         ServerLevel overworld = server.overworld();
         if (StageSavedData.get(overworld).getEclipseTicks() <= 0) return;
 
-        for (Entity entity : overworld.getEntities().getAll()) {
-            if (entity instanceof Mob mob && mob.isOnFire()) {
-                mob.clearFire();
-            }
+        List<Mob> burningMobs = overworld.getEntitiesOfClass(Mob.class,
+                overworld.getWorldBorder().getCollisionShape().bounds(),
+                Mob::isOnFire);
+        for (Mob mob : burningMobs) {
+            mob.clearFire();
         }
     }
 }

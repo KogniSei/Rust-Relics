@@ -43,6 +43,14 @@ public final class HardmodeBuffs {
     private static final double ARMOR_BONUS = 2.02;
     private static final float EXTRA_SPAWN_CHANCE = 0.35f; // 35% chance de spawn extra
 
+    private static boolean isBuffed(LivingEntity entity) {
+        return entity.getPersistentData().getBoolean(BUFFED_TAG);
+    }
+
+    private static void markBuffed(LivingEntity entity) {
+        entity.getPersistentData().putBoolean(BUFFED_TAG, true);
+    }
+
     private HardmodeBuffs() {}
 
     private static boolean hardmode(ServerLevel level) {
@@ -65,10 +73,10 @@ public final class HardmodeBuffs {
         if (!hardmode(level)) {
             return;
         }
-        if (living.getTags().contains(BUFFED_TAG)) {
+        if (isBuffed(living)) {
             return; // ya buffeado (evita compuesto en recarga de chunk)
         }
-        living.addTag(BUFFED_TAG);
+        markBuffed(living);
 
         AttributeInstance health = living.getAttribute(Attributes.MAX_HEALTH);
         if (health != null) {
@@ -88,18 +96,16 @@ public final class HardmodeBuffs {
 
         // Spawn rate: chance de spawnear 1 mob extra del mismo tipo cerca
         if (living.getRandom().nextFloat() < EXTRA_SPAWN_CHANCE) {
-            level.getServer().execute(() -> {
-                try {
-                    LivingEntity extra = (LivingEntity) living.getType().create(level);
-                    if (extra != null) {
-                        extra.moveTo(living.getX() + (living.getRandom().nextDouble() - 0.5) * 4,
-                                     living.getY(),
-                                     living.getZ() + (living.getRandom().nextDouble() - 0.5) * 4,
-                                     living.getYRot(), living.getXRot());
-                        level.addFreshEntity(extra);
-                    }
-                } catch (Exception ignored) {}
-            });
+            try {
+                LivingEntity extra = (LivingEntity) living.getType().create(level);
+                if (extra != null) {
+                    extra.moveTo(living.getX() + (living.getRandom().nextDouble() - 0.5) * 4,
+                                 living.getY(),
+                                 living.getZ() + (living.getRandom().nextDouble() - 0.5) * 4,
+                                 living.getYRot(), living.getXRot());
+                    level.addFreshEntity(extra);
+                }
+            } catch (Exception ignored) {}
         }
     }
 

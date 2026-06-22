@@ -36,7 +36,7 @@ public class KarmicRetribution extends MobEffect {
         double dmg = (amplifier >= 1) ? DMG_PER_TICK_ACCELERATED : DMG_PER_TICK;
         float actualDmg = Math.min((float) dmg, health - MIN_HEALTH);
         if (actualDmg > 0) {
-            entity.hurt(entity.damageSources().magic(), actualDmg);
+            entity.hurt(entity.level().damageSources().magic(), actualDmg);
         }
         return true;
     }
