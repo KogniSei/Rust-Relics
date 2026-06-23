@@ -1,14 +1,14 @@
 package com.rustrelics.bloodmoon;
 
+import com.rustrelics.config.EventConfig;
 import com.rustrelics.stage.StageSavedData;
+import com.rustrelics.util.SpawnMarker;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -70,6 +70,9 @@ public final class BloodMoonBuffs {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof ServerPlayer) return;
+        // Mob extra generado por cualquier sistema de buff: nunca se re-procesa
+        // (evita la mob-bomb cruzada entre luna palida / luna muerta / hardmode).
+        if (SpawnMarker.isExtra(living)) return;
 
         // Luna ya terminada: si reaparece un mob marcado en una luna anterior
         // (estaba en un chunk descargado durante el barrido del amanecer), revertir.
@@ -79,17 +82,22 @@ public final class BloodMoonBuffs {
         }
         if (!isHostile(living)) return;
         if (isBuffed(living)) return;
-        markBuffed(living);
+        // Solo buffs de stat al spawn natural; la CANTIDAD de mobs la maneja MoonSpawner.
+        applyBuffs(level, living);
+    }
 
-        // Contar jugadores dentro de 64 bloques del mob
+    /**
+     * Aplica los buffs de stat de la luna palida a un mob (idempotente) y devuelve
+     * el "scale" usado (para reutilizarlo al calcular extras). Lo usan onEntityJoin
+     * y el spawner de evento ({@link MoonSpawner}). NO genera mobs extra.
+     */
+    public static double applyBuffs(ServerLevel level, LivingEntity living) {
+        markBuffed(living);
         long nearby = level.players().stream()
                 .filter(p -> p.distanceToSqr(living) <= 64.0 * 64.0)
                 .count();
         if (nearby < 1) nearby = 1;
-
         double scale = 1.0 + (nearby - 1) * 0.15;
-
-        // ADD_MULTIPLIED_BASE suma value*base; para un +50% (escalado) el valor es 0.50*scale.
         double bonus = 0.50 * scale;
 
         AttributeInstance health = living.getAttribute(Attributes.MAX_HEALTH);
@@ -98,24 +106,12 @@ public final class BloodMoonBuffs {
                     BM_HEALTH_MOD, bonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             living.setHealth(living.getMaxHealth());
         }
-
         AttributeInstance dmg = living.getAttribute(Attributes.ATTACK_DAMAGE);
         if (dmg != null && dmg.getModifier(BM_DAMAGE_MOD) == null) {
             dmg.addPermanentModifier(new AttributeModifier(
                     BM_DAMAGE_MOD, bonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
-
-        // Spawn rate: base +125%, escala +15% por jugador extra
-        double extraChance = 1.25 * scale;
-        int guaranteed = (int) extraChance;
-        double fractional = extraChance - guaranteed;
-
-        for (int i = 0; i < guaranteed; i++) {
-            spawnExtra(living, level);
-        }
-        if (living.getRandom().nextFloat() < fractional) {
-            spawnExtra(living, level);
-        }
+        return scale;
     }
 
     /** Retira los buffs de luna de un mob y limpia su marca. */
@@ -138,27 +134,6 @@ public final class BloodMoonBuffs {
                 removeBuffs(living);
             }
         }
-    }
-
-    private static void spawnExtra(LivingEntity original, ServerLevel level) {
-        try {
-            LivingEntity extra = (LivingEntity) original.getType().create(level);
-            if (extra != null) {
-                markBuffed(extra); // corta la recursion: el extra NO debe re-multiplicarse
-                extra.moveTo(
-                    original.getX() + (original.getRandom().nextDouble() - 0.5) * 6,
-                    original.getY(),
-                    original.getZ() + (original.getRandom().nextDouble() - 0.5) * 6,
-                    original.getYRot(), original.getXRot()
-                );
-                // Inicializacion de spawn vanilla (AI, equipo, atributos aleatorios).
-                if (extra instanceof Mob mob) {
-                    mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
-                            MobSpawnType.MOB_SUMMONED, null);
-                }
-                level.addFreshEntity(extra);
-            }
-        } catch (Exception ignored) {}
     }
 
     // --- Loot mejorado (solo kills de jugador) ---
@@ -212,6 +187,12 @@ public final class BloodMoonBuffs {
             }
             default -> {
             }
+        }
+
+        // Reliquia (artifacts): mayor probabilidad durante la luna palida (efecto loot).
+        if (victim.getRandom().nextFloat() < EventConfig.PALEMOON.relicChance) {
+            ItemStack relic = EventConfig.randomRelic(victim.getRandom());
+            if (relic != null) addDrop(event, victim, level, relic);
         }
     }
 

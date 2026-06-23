@@ -36,7 +36,7 @@ public final class DeadMoonManager {
             if (!data.isDmChecked()) {
                 data.setDmChecked(true);
                 data.setDmDawnSent(false);
-                if (moonPhase == 4L) {
+                if (moonPhase == 4L && data.getBloodmoon() == 0) { // exclusividad
                     data.setDeadmoon(1);
                     server.getPlayerList().broadcastSystemMessage(
                         Component.literal("§8[Rust & Relics] §fLa luna muerta emerge... los mobs se agitan."),
@@ -72,6 +72,9 @@ public final class DeadMoonManager {
     /** Fuerza el estado de la Luna Muerta (debug). */
     public static void forceSet(MinecraftServer server, boolean active) {
         StageSavedData data = StageSavedData.get(server.overworld());
+        if (active) {
+            BloodMoonManager.deactivate(server); // exclusividad: solo una luna a la vez
+        }
         int value = active ? 1 : 0;
         data.setDeadmoon(value);
         data.setDmChecked(active);
@@ -97,5 +100,15 @@ public final class DeadMoonManager {
         for (ServerLevel level : server.getAllLevels()) {
             DeadMoonBuffs.revertAll(level);
         }
+    }
+
+    /** Apaga la Luna Muerta sin broadcast. Usado para la exclusividad entre lunas. */
+    public static void deactivate(MinecraftServer server) {
+        StageSavedData data = StageSavedData.get(server.overworld());
+        if (data.getDeadmoon() == 0) return;
+        data.setDeadmoon(0);
+        data.setDmChecked(true);
+        data.setDmDawnSent(true);
+        revertBuffs(server);
     }
 }

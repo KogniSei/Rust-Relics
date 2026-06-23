@@ -1,6 +1,7 @@
 package com.rustrelics.enchantment.leveling;
 
 import com.rustrelics.RustRelics;
+import com.rustrelics.advancement.AdvancementHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -120,6 +121,10 @@ public class EnchantmentLeveling {
                 int oldLevel = oldEnch.getLevel(ench);
                 int newLevel = entry.getValue();
                 mutable.set(ench, newLevel);
+
+                if (newLevel >= 2) {
+                    AdvancementHelper.grant(player, "encantamiento_vivo", "enchant_level_2");
+                }
 
                 ResourceLocation enchLoc = ench.getKey().location();
                 Component enchName = Component.translatable("enchantment." + enchLoc.getNamespace() + "." + enchLoc.getPath());

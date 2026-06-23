@@ -1,6 +1,7 @@
 package com.rustrelics.equipment;
 
 import com.rustrelics.RustRelics;
+import com.rustrelics.advancement.AdvancementHelper;
 import com.rustrelics.attachment.ModAttachments;
 import com.rustrelics.network.SyncDiamondChargesPacket;
 import net.minecraft.core.particles.ParticleTypes;
@@ -42,6 +43,10 @@ public class DiamondFocus {
 
         int charges = getCharges(player);
         if (charges <= 0) return;
+
+        if (charges >= MAX_CHARGES) {
+            AdvancementHelper.grant(player, "el_foco_despierta", "three_charges_consumed");
+        }
 
         event.setAmount(
             event.getAmount() * (1.0f + charges * DAMAGE_PER_CHARGE)

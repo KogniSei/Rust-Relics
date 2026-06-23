@@ -1,5 +1,6 @@
 package com.rustrelics.equipment;
 
+import com.rustrelics.advancement.AdvancementHelper;
 import com.rustrelics.stage.StageManager;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -75,6 +76,7 @@ public final class EquipmentGate {
 
         if (isArmorSlot) {
             if (stage < 1 && path.startsWith("diamond_")) {
+                AdvancementHelper.grant(player, "el_mundo_tiene_reglas", "diamond_blocked");
                 message = MSG_DIAMOND;
             } else if (stage < 4 && path.startsWith("netherite_")) {
                 message = MSG_NETHERITE; // bloqueada hasta Stage 4

@@ -1,6 +1,8 @@
 package com.rustrelics;
 
 import com.mojang.logging.LogUtils;
+import com.rustrelics.advancement.VillagerKillTrigger;
+import com.rustrelics.advancement.WitherSummonTrigger;
 import com.rustrelics.bloodmoon.BloodMoonBuffs;
 import com.rustrelics.bloodmoon.BloodMoonManager;
 import com.rustrelics.bloodmoon.DeadMoonBuffs;
@@ -65,6 +67,7 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(EquipmentGate.class);
         NeoForge.EVENT_BUS.register(RustRelicsCommands.class);
         NeoForge.EVENT_BUS.register(StageTriggers.class);
+        NeoForge.EVENT_BUS.register(com.rustrelics.stage.GuardianBlessing.class);
         NeoForge.EVENT_BUS.register(BossBuffs.class);
         NeoForge.EVENT_BUS.register(WitherBossBuffs.class);
         // Boss Scaling: ajusta HP segun jugadores cercanos
@@ -80,6 +83,8 @@ public class RustRelics {
         // Luna Muerta (nueva luna)
         NeoForge.EVENT_BUS.register(DeadMoonManager.class);
         NeoForge.EVENT_BUS.register(DeadMoonBuffs.class);
+        // Spawner de evento centrado en el jugador (lunas)
+        NeoForge.EVENT_BUS.register(com.rustrelics.bloodmoon.MoonSpawner.class);
         // Hardmode permanente (Stage 3+)
         NeoForge.EVENT_BUS.register(HardmodeBuffs.class);
         // Stage 4: buffs al jugador y stage silencioso
@@ -93,6 +98,9 @@ public class RustRelics {
         // Stage 5: Eclipse Solar (ahora que el ciclo dia/noche volvio)
         NeoForge.EVENT_BUS.register(SolarEclipseManager.class);
         NeoForge.EVENT_BUS.register(EclipseMobEffects.class);
+        NeoForge.EVENT_BUS.register(com.rustrelics.eclipse.EclipseBuffs.class);
+        NeoForge.EVENT_BUS.register(com.rustrelics.eclipse.EclipseVillagers.class);
+        NeoForge.EVENT_BUS.register(com.rustrelics.eclipse.EclipseSpawnControl.class);
         // Stage 5+: Retribucion Karmica
         NeoForge.EVENT_BUS.register(KarmicRetributionHandler.class);
         // Villager kill tracker (para escalar retribucion karmica)
@@ -102,11 +110,16 @@ public class RustRelics {
         NeoForge.EVENT_BUS.register(PillageThreatTracker.class);
         // Diamond Focus: cristal charges del set de diamante
         NeoForge.EVENT_BUS.register(DiamondFocus.class);
+        // Config de eventos (pools de spawn, intensidad, loot)
+        com.rustrelics.config.EventConfig.loadConfig();
         // Item Obliterator: erradica items del item_obliterator.json5
         ItemObliterator.loadConfig();
         NeoForge.EVENT_BUS.register(ItemObliterator.class);
         // Enchantment Leveling: mejora de encantamientos por uso
         NeoForge.EVENT_BUS.register(EnchantmentLeveling.class);
+        // Advancement Triggers: Wither summon + villager kills
+        NeoForge.EVENT_BUS.register(WitherSummonTrigger.class);
+        NeoForge.EVENT_BUS.register(VillagerKillTrigger.class);
         // Mod Compat: deteccion de mods de encantamientos
         NeoForge.EVENT_BUS.register(ModCompat.class);
         // Registrar efectos personalizados via DeferredRegister

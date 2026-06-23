@@ -44,4 +44,15 @@ public class ModAttachments {
                 .serialize(Codec.INT)
                 .build()
         );
+
+    /**
+     * true si el jugador mato a un Elder Guardian. Persiste entre sesiones; los
+     * buffs de la bendicion se re-aplican en cada login/respawn (ver GuardianBlessing).
+     */
+    public static final Supplier<AttachmentType<Boolean>> GUARDIAN_BLESSED =
+        ATTACHMENT_TYPES.register("guardian_blessed", () ->
+            AttachmentType.builder(() -> false)
+                .serialize(Codec.BOOL)
+                .build()
+        );
 }

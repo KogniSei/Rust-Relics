@@ -1,5 +1,6 @@
 package com.rustrelics.stage;
 
+import com.rustrelics.advancement.AdvancementHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,6 +32,7 @@ public final class SleepGate {
         if (!(player.level() instanceof ServerLevel level)) return;
 
         if (StageManager.getStage(level) == 4) {
+            AdvancementHelper.grant(player, "la_noche_que_no_termina", "sleep_blocked");
             event.setProblem(Player.BedSleepingProblem.OTHER_PROBLEM);
             player.displayClientMessage(Component.literal(BLOCK_MESSAGE), true);
             level.playSound(null, player.blockPosition(),

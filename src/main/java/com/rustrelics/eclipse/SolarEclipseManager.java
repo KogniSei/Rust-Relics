@@ -47,9 +47,17 @@ public final class SolarEclipseManager {
         } else {
             data.setEclipseTicks(0);
             overworld.setWeatherParameters(999999, 0, false, false);
+            revertBuffs(server);
             server.getPlayerList().broadcastSystemMessage(
                 Component.literal("§6[DEBUG] §fEclipse Solar §adesactivado§f (forzado)."), false);
             RustRelics.LOGGER.info("[R&R DEBUG] Eclipse Solar forzado OFF.");
+        }
+    }
+
+    /** Retira los buffs del eclipse de todos los mobs cargados, en todas las dimensiones. */
+    private static void revertBuffs(MinecraftServer server) {
+        for (ServerLevel level : server.getAllLevels()) {
+            EclipseBuffs.revertAll(level);
         }
     }
 
@@ -75,6 +83,7 @@ public final class SolarEclipseManager {
 
             if (next == 0) {
                 overworld.setWeatherParameters(999999, 0, false, false);
+                revertBuffs(server);
                 server.getPlayerList().broadcastSystemMessage(Component.literal(
                         "§6[Rust & Relics] §fEl sol regresa. El eclipse ha pasado."), false);
                 RustRelics.LOGGER.info("[R&R] Eclipse Solar terminado.");

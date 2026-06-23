@@ -1,15 +1,10 @@
 package com.rustrelics.stage;
 
 import com.rustrelics.RustRelics;
-import com.rustrelics.silent.HealthTracker;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -71,36 +66,7 @@ public final class StageTriggers {
             }
             RustRelics.LOGGER.info("[R&R] Stage avanzado a {} por muerte de {}.", target, id);
         }
-
-        // Recompensa al matar al Elder Guardian: x2 vida y daño
-        if ("minecraft:elder_guardian".equals(idStr)) {
-            if (event.getSource().getEntity() instanceof ServerPlayer killer) {
-                awardGuardianBlessing(killer);
-            }
-        }
-    }
-
-    private static final ResourceLocation GUARDIAN_HP_MOD = ResourceLocation.parse(
-        "rustrelics:guardian_hp"
-    );
-
-    private static void awardGuardianBlessing(ServerPlayer player) {
-        AttributeInstance health = player.getAttribute(Attributes.MAX_HEALTH);
-        if (health != null && health.getModifier(GUARDIAN_HP_MOD) == null) {
-            // PERMANENTE (se guarda con el jugador): sobrevive a relog/reinicio.
-            // La guarda getModifier==null garantiza que se aplica UNA sola vez.
-            // Solo se llama para el ServerPlayer que mata al Elder Guardian, asi
-            // que el buff es exclusivo del jugador y nunca toca a los mobs.
-            health.addPermanentModifier(
-                new AttributeModifier(GUARDIAN_HP_MOD, 0.35, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-            );
-            // La vida maxima cambio: refrescar el health stage (no pasa por equipo).
-            HealthTracker.recalculate(player);
-            // Mensaje SOLO la primera vez (si ya lo tenia, no se repite en kills posteriores).
-            player.sendSystemMessage(
-                Component.literal("§b[Rust & Relics] §fBendición del Guardián: §e§l+35% §fvida máxima.")
-            );
-        }
+        // La bendicion del Elder Guardian (buffs al jugador) la maneja GuardianBlessing.
     }
 
     @SubscribeEvent

@@ -1,5 +1,6 @@
 package com.rustrelics.stage;
 
+import com.rustrelics.util.SpawnMarker;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -72,6 +73,11 @@ public final class HardmodeBuffs {
         if (living instanceof ServerPlayer) {
             return;
         }
+        // Mob extra generado por cualquier sistema de buff: nunca se re-procesa
+        // (evita la mob-bomb cruzada entre hardmode / luna palida / luna muerta).
+        if (SpawnMarker.isExtra(living)) {
+            return;
+        }
         if (!hardmode(level)) {
             return;
         }
@@ -101,14 +107,16 @@ public final class HardmodeBuffs {
             try {
                 LivingEntity extra = (LivingEntity) living.getType().create(level);
                 if (extra != null) {
-                    markBuffed(extra); // corta la recursion: el extra NO debe re-multiplicarse
+                    SpawnMarker.markExtra(extra); // ningun sistema de buff lo multiplicara
                     extra.moveTo(living.getX() + (living.getRandom().nextDouble() - 0.5) * 4,
                                  living.getY(),
                                  living.getZ() + (living.getRandom().nextDouble() - 0.5) * 4,
                                  living.getYRot(), living.getXRot());
                     if (extra instanceof Mob mob) {
-                        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
-                                MobSpawnType.MOB_SUMMONED, null);
+                        try {
+                            mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
+                                    MobSpawnType.MOB_SUMMONED, null);
+                        } catch (Exception ignored) {}
                     }
                     level.addFreshEntity(extra);
                 }

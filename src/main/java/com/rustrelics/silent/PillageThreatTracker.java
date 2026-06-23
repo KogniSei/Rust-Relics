@@ -1,5 +1,6 @@
 package com.rustrelics.silent;
 
+import com.rustrelics.advancement.AdvancementHelper;
 import com.rustrelics.attachment.ModAttachments;
 import com.rustrelics.util.Scoreboards;
 import net.minecraft.server.level.ServerPlayer;
@@ -63,6 +64,9 @@ public final class PillageThreatTracker {
 
     private static void writeScores(ServerPlayer player, int kills) {
         int threat = calcThreat(kills);
+        if (threat >= 5) {
+            AdvancementHelper.grant(player, "secretos/acosadores", "threat_5");
+        }
         Scoreboards.set(player.serverLevel().getServer(), KILLS_SCOREBOARD,
                 "Pillager Kills", player.getScoreboardName(), kills);
         Scoreboards.set(player.serverLevel().getServer(), THREAT_SCOREBOARD,

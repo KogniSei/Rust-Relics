@@ -57,6 +57,7 @@ public final class BloodMoonManager {
                 data.setBmDawnSent(false);
                 if (
                     moonPhase == 0L &&
+                    data.getDeadmoon() == 0 && // exclusividad: no si hay luna muerta
                     overworld.getRandom().nextFloat() < CHANCE
                 ) {
                     data.setBloodmoon(1);
@@ -109,6 +110,9 @@ public final class BloodMoonManager {
     /** Fuerza el estado de la Luna Palida (debug). */
     public static void forceSet(MinecraftServer server, boolean active) {
         StageSavedData data = StageSavedData.get(server.overworld());
+        if (active) {
+            DeadMoonManager.deactivate(server); // exclusividad: solo una luna a la vez
+        }
         int value = active ? 1 : 0;
         data.setBloodmoon(value);
         mirror(server, value);
@@ -131,6 +135,17 @@ public final class BloodMoonManager {
         for (ServerLevel level : server.getAllLevels()) {
             BloodMoonBuffs.revertAll(level);
         }
+    }
+
+    /** Apaga la Luna Palida sin broadcast. Usado para la exclusividad entre lunas. */
+    public static void deactivate(MinecraftServer server) {
+        StageSavedData data = StageSavedData.get(server.overworld());
+        if (data.getBloodmoon() == 0) return;
+        data.setBloodmoon(0);
+        mirror(server, 0);
+        data.setBmChecked(true);
+        data.setBmDawnSent(true);
+        revertBuffs(server);
     }
 
     /** Reescribe el scoreboard desde SavedData al abrir un mundo ya progresado. */

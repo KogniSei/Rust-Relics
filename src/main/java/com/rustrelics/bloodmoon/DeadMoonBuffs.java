@@ -1,38 +1,57 @@
 package com.rustrelics.bloodmoon;
 
+import com.rustrelics.config.EventConfig;
+import com.rustrelics.util.SpawnMarker;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
+
+import java.util.List;
 
 /**
- * Efectos de la Luna Muerta sobre los mobs hostiles.
+ * Efectos de la Luna Muerta sobre los mobs hostiles y el jugador.
  *
- * Durante la luna muerta, los mobs hostiles reciben:
- *   - +11% vida y +11% daño (AttributeModifier retirable, no corrompe la base)
- *   - 2 mobs extra al aparecer (spawn rate +200%)
+ * Mobs hostiles (al spawn natural; la CANTIDAD la maneja {@link MoonSpawner}):
+ *   - +11% vida
+ *   - +rango de deteccion (FOLLOW_RANGE): te detectan desde mas lejos
+ *   - NO reciben +daño (cambio de diseño respecto a versiones previas)
  *
- * Como en la luna pálida, los buffs de stats son temporales: se aplican como
- * modificadores PERMANENTES (se guardan con la entidad para sobrevivir la recarga
- * de chunk) y se RETIRAN al amanecer (via {@link #revertAll}) o de forma perezosa
- * si el mob reaparece cuando la luna ya termino.
+ * Efecto especial: la regeneracion del jugador se reduce 50% (toda curacion).
+ * Loot: mayor probabilidad de libros encantados al matar (config).
+ *
+ * Los buffs de stat son temporales: AttributeModifier permanentes retirables, que
+ * se RETIRAN al amanecer ({@link #revertAll}) o de forma perezosa al recargar.
  */
 public final class DeadMoonBuffs {
 
     private static final String BUFFED_TAG = "rr_dm_buffed";
-    private static final double HEALTH_MULT = 1.11;
-    private static final double DAMAGE_MULT = 1.11;
+    private static final double HEALTH_MULT = 1.11;   // +11% vida
+    private static final double FOLLOW_BONUS = 0.50;  // +50% rango de deteccion
+    private static final float REGEN_FACTOR = 0.5f;   // -50% curacion del jugador
 
     private static final ResourceLocation DM_HEALTH_MOD =
             ResourceLocation.fromNamespaceAndPath("rustrelics", "deadmoon_health");
+    private static final ResourceLocation DM_FOLLOW_MOD =
+            ResourceLocation.fromNamespaceAndPath("rustrelics", "deadmoon_follow");
+    /** Legacy (versiones previas aplicaban +daño): se retira para limpiar mobs antiguos. */
     private static final ResourceLocation DM_DAMAGE_MOD =
             ResourceLocation.fromNamespaceAndPath("rustrelics", "deadmoon_damage");
 
@@ -51,6 +70,7 @@ public final class DeadMoonBuffs {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof ServerPlayer) return;
+        if (SpawnMarker.isExtra(living)) return;
 
         // Luna ya terminada: revertir un mob marcado en una luna anterior.
         if (!DeadMoonManager.isActive(level)) {
@@ -61,49 +81,36 @@ public final class DeadMoonBuffs {
         boolean hostile = living.getAttribute(Attributes.ATTACK_DAMAGE) != null;
         if (!hostile) return;
         if (isBuffed(living)) return;
-        markBuffed(living);
+        applyBuffs(living);
+    }
 
-        // --- Buff de stats (ADD_MULTIPLIED_BASE: value = mult - 1) ---
+    /**
+     * Aplica los buffs de stat de la luna muerta (idempotente): +vida y +rango de
+     * deteccion, SIN daño. Lo usan onEntityJoin y el spawner ({@link MoonSpawner}).
+     */
+    public static void applyBuffs(LivingEntity living) {
+        markBuffed(living);
         AttributeInstance health = living.getAttribute(Attributes.MAX_HEALTH);
         if (health != null && health.getModifier(DM_HEALTH_MOD) == null) {
             health.addPermanentModifier(new AttributeModifier(
                     DM_HEALTH_MOD, HEALTH_MULT - 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             living.setHealth(living.getMaxHealth());
         }
-        AttributeInstance dmg = living.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (dmg != null && dmg.getModifier(DM_DAMAGE_MOD) == null) {
-            dmg.addPermanentModifier(new AttributeModifier(
-                    DM_DAMAGE_MOD, DAMAGE_MULT - 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-        }
-
-        // --- Spawn rate +200%: 2 mobs extra ---
-        for (int i = 0; i < 2; i++) {
-            try {
-                LivingEntity extra = (LivingEntity) living.getType().create(level);
-                if (extra != null) {
-                    markBuffed(extra); // corta la recursion: el extra NO debe re-multiplicarse
-                    extra.moveTo(
-                        living.getX() + (living.getRandom().nextDouble() - 0.5) * 6,
-                        living.getY(),
-                        living.getZ() + (living.getRandom().nextDouble() - 0.5) * 6,
-                        living.getYRot(), living.getXRot()
-                    );
-                    if (extra instanceof Mob mob) {
-                        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
-                                MobSpawnType.MOB_SUMMONED, null);
-                    }
-                    level.addFreshEntity(extra);
-                }
-            } catch (Exception ignored) {}
+        AttributeInstance follow = living.getAttribute(Attributes.FOLLOW_RANGE);
+        if (follow != null && follow.getModifier(DM_FOLLOW_MOD) == null) {
+            follow.addPermanentModifier(new AttributeModifier(
+                    DM_FOLLOW_MOD, FOLLOW_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 
-    /** Retira los buffs de luna muerta de un mob y limpia su marca. */
+    /** Retira los buffs de luna muerta de un mob (incl. el +daño legacy) y limpia su marca. */
     private static void removeBuffs(LivingEntity living) {
         AttributeInstance health = living.getAttribute(Attributes.MAX_HEALTH);
         if (health != null) health.removeModifier(DM_HEALTH_MOD);
+        AttributeInstance follow = living.getAttribute(Attributes.FOLLOW_RANGE);
+        if (follow != null) follow.removeModifier(DM_FOLLOW_MOD);
         AttributeInstance dmg = living.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (dmg != null) dmg.removeModifier(DM_DAMAGE_MOD);
+        if (dmg != null) dmg.removeModifier(DM_DAMAGE_MOD); // limpieza legacy
         if (living.getHealth() > living.getMaxHealth()) {
             living.setHealth(living.getMaxHealth());
         }
@@ -117,5 +124,45 @@ public final class DeadMoonBuffs {
                 removeBuffs(living);
             }
         }
+    }
+
+    // --- Efecto especial: regeneracion del jugador -50% ---
+    @SubscribeEvent
+    public static void onHeal(LivingHealEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        if (!(player.level() instanceof ServerLevel level)) return;
+        if (!DeadMoonManager.isActive(level)) return;
+        event.setAmount(event.getAmount() * REGEN_FACTOR);
+    }
+
+    // --- Loot: libros encantados (solo kills de jugador) ---
+    @SubscribeEvent
+    public static void onDrops(LivingDropsEvent event) {
+        LivingEntity victim = event.getEntity();
+        if (!(victim.level() instanceof ServerLevel level)) return;
+        if (!DeadMoonManager.isActive(level)) return;
+        if (!(event.getSource().getEntity() instanceof ServerPlayer)) return;
+        if (victim.getRandom().nextFloat() >= EventConfig.DEADMOON.bookChance) return;
+
+        ItemStack book = randomEnchantedBook(level, victim.getRandom());
+        if (book.isEmpty()) return;
+        ItemEntity drop = new ItemEntity(level, victim.getX(), victim.getY() + 0.5, victim.getZ(), book);
+        drop.setDefaultPickUpDelay();
+        event.getDrops().add(drop);
+    }
+
+    private static ItemStack randomEnchantedBook(ServerLevel level, RandomSource rng) {
+        List<Holder.Reference<Enchantment>> all =
+                level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).listElements().toList();
+        if (all.isEmpty()) return ItemStack.EMPTY;
+        Holder<Enchantment> ench = all.get(rng.nextInt(all.size()));
+        int max = Math.max(1, ench.value().getMaxLevel());
+        int lvl = 1 + rng.nextInt(max);
+
+        ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+        ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        mutable.set(ench, lvl);
+        book.set(DataComponents.STORED_ENCHANTMENTS, mutable.toImmutable());
+        return book;
     }
 }

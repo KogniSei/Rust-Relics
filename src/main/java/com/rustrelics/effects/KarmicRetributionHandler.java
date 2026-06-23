@@ -1,5 +1,6 @@
 package com.rustrelics.effects;
 
+import com.rustrelics.advancement.AdvancementHelper;
 import com.rustrelics.attachment.ModAttachments;
 import com.rustrelics.stage.StageManager;
 import net.minecraft.server.level.ServerLevel;
@@ -71,6 +72,10 @@ public final class KarmicRetributionHandler {
 
         if (existing != null) {
             amp = Math.min(existing.getAmplifier() + 1, MAX_AMPLIFIER);
+        }
+
+        if (amp >= 3) {
+            AdvancementHelper.grant(player, "karma_acumulado", "karma_3+");
         }
 
         player.addEffect(
